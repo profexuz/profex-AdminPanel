@@ -13,10 +13,12 @@
         if(currentThemeIsDark.value){
             //dark
             document.documentElement.classList.add('dark');
+            localStorage.setItem("color-theme", "dark");
         }
         else{
             // light
             document.documentElement.classList.remove('dark');
+            localStorage.setItem("color-theme", "light");
         }
     }
 </script>
