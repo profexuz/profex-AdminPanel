@@ -3,5 +3,9 @@
     "categories":"Categories",
     "masters":"Masters",
     "users":"Users",
-    "settings":"Setings"
+    "settings":"Setings",
+
+    "en":"English",
+    "ru":"Russian",
+    "uz":"Uzbek"
 }
