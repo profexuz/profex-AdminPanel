@@ -4,8 +4,8 @@ import FlowbiteSetup from './FlowbiteSetup.vue';
 </script>
 
 <template> 
-  <RouterView />
   <FlowbiteSetup></FlowbiteSetup>
+  <RouterView></RouterView>
 </template>
 
 <style scoped>

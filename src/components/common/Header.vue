@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import ThemeSwicher from './ThemeSwicher.vue';
+  import LanguageSwitcher from './LanguageSwitcher.vue';
 </script>
 <template>  
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -18,6 +19,7 @@
         </a>
       </div>
       <div class="flex items-center">
+        <LanguageSwitcher></LanguageSwitcher>
         <ThemeSwicher></ThemeSwicher>
           <div class="flex items-center ml-3">
             <div>
