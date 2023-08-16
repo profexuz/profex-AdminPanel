@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconDashbord from "../icons/IconDashbord.vue";
+import IconDashboard from "../icons/IconDashboard.vue";
 import IconCategories from "../icons/IconCategories.vue";
 import IconMasters from "..//icons/IconMasters.vue";
 import IconUsers from "../icons/IconUsers.vue";
@@ -10,9 +10,9 @@ import IconSettings from "../icons/IconSettings.vue";
    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
          <li>
-            <RouterLink to="dashbord">
+            <RouterLink to="dashboard">
                <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  <IconDashbord></IconDashbord>
+                  <IconDashboard></IconDashboard>
                   <span class="ml-3">Dashboard</span>
                </div>
             </RouterLink>
