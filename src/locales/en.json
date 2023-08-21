@@ -1,11 +1,10 @@
 {
-    "dashboard":"Dashboard",
-    "categories":"Categories",
-    "masters":"Masters",
-    "users":"Users",
-    "settings":"Setings",
-
-    "en":"English",
-    "ru":"Russian",
-    "uz":"Uzbek"
+    "dashboard" : "Dashboard",
+    "categories" : "Categories",
+    "masters" : "Masters",
+    "users" : "Users",
+    "settings" : "Setings",
+    "en" : "English",
+    "ru" : "Russian",
+    "uz" : "Uzbek"
 }
