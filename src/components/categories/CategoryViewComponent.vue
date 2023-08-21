@@ -31,6 +31,8 @@ export default defineComponent({
             this.baseURL = axios.defaults.baseURL!;
             this.createdAtString = formatDate(this.createdAt!);
             this.updatedAtString = formatDate(this.updatedAt!);
+            // this.createdAtString = this.createdAt!;
+            // this.updatedAtString = this.updatedAt!;
         },
     },
     mounted() {
