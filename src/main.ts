@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import axios from "@/plugins/axios";
 
 import './index.css'
 import i18n from './locales/i18n'
