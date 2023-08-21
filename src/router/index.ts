@@ -9,11 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'main',
       component: ()=> import("../layouts/Layouts.vue"),
-      redirect:"/dashbord",
+      redirect:"/dashboard",
       children: [
         {
-          path: "dashbord",
-          component: ()=> import("../views/dashbord/DashbordView.vue")
+          path: "dashboard",
+          component: ()=> import("../views/dashboard/DashboardView.vue")
         },
         {
           path: "categories",
