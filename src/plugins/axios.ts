@@ -20,7 +20,9 @@ instance.interceptors.response.use(
         else if (error.response.status == 500){
             console.log("500 error handled");
         }
-        return Promise.reject(error);
+        else {
+            console.log(error.response);
+        }
     }
 );
 
