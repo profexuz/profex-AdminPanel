@@ -22,12 +22,8 @@ import { LoginDtos } from '@/dtos/AuthDto';
             loginDto.password = this.password;
             var jsonContent:string = JSON.stringify(loginDto);
             console.log(jsonContent)
- var response = await axios.post("api/administrator/login",jsonContent,
-            <<<<<<< .mine
+             var response = await axios.post("api/administrator/login",jsonContent,
                        {
-=======
-            {
->>>>>>> .theirs
                 headers:{
                     'Content-Type': 'application/json'
                 }
