@@ -8,12 +8,3 @@
     </svg>
 </template>
 
-<script>
-export default {
-    name: "IconDelete"
-}
-</script>
-
-<style scoped>
-
-</style>

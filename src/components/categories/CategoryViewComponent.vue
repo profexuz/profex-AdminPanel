@@ -1,6 +1,4 @@
 <script lang="ts">
-import IconEdit from "../../components/icons/interface/IconEdit.vue"
-import IconDelete from "../../components/icons/interface/IconDelete.vue"
 import IconCalendar from "../../components/icons/interface/IconCalendar.vue";
 import IconCalendarEdit from "../../components/icons/interface/IconCalendarEdit.vue";
 import {formatDate} from "@/helpers/DateHelper";
@@ -9,12 +7,15 @@ import { defineComponent } from "vue";
 import FlowbiteSetup from "@/FlowbiteSetup.vue";
 import CategoryEditComponent from "./CategoryEditComponent.vue";
 
+import CategoryDeleteComponents from "./CategoryDeleteComponents.vue";
+
+
 
 export default defineComponent({
     components:{
         CategoryEditComponent,
         FlowbiteSetup,
-        IconEdit, IconDelete,
+        CategoryDeleteComponents,
         IconCalendar, IconCalendarEdit
     },
     props: {
@@ -66,14 +67,16 @@ export default defineComponent({
         <div class="flex-none w-16">
 
             <CategoryEditComponent
-                :name-prop=this.name
-                :description-prop=this.description
-                :id-prop=this.id>
+                :name-prop=name
+                :description-prop=description
+                :id-prop=id>
             </CategoryEditComponent>
 
             <button type="button"
                     class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                <IconDelete></IconDelete>
+                <CategoryDeleteComponents :id-category=id>
+
+                </CategoryDeleteComponents>
             </button>
         </div>
     </div>
