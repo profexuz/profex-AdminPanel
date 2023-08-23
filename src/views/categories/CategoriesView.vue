@@ -46,7 +46,7 @@ export default defineComponent({
 <template>
 
 <!--begin:: BreadCrumb-->
-<nav class="flex mb-5" aria-label="Breadcrumb">
+<nav class="flex justify-between mb-5" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
           <a href="#"
@@ -72,11 +72,11 @@ export default defineComponent({
           </div>
         </li>
       </ol>
-    </nav>
+
     <!--end:: BreadCrumb-->
    
     <CategoryCreateModalComponent></CategoryCreateModalComponent>
-
+</nav>
   <!--begin:: Categories Skeletons-->
     <ul v-show="isLoaded==false">
         <template v-for="element in defaultSkeletons">
