@@ -18,10 +18,11 @@ import { LoginDtos } from '@/dtos/AuthDto';
         },
         async loginAsync(){
             var loginDto = new LoginDtos();
-            loginDto.password = this.password;
             loginDto.phoneNumber = this.phoneNumber;
+            loginDto.password = this.password;
             var jsonContent:string = JSON.stringify(loginDto);
-            var response = await axios.post("/api/administrator/login",jsonContent,
+            console.log(jsonContent)
+            var response = await axios.post("/api/StudentAuth/login",jsonContent,
             {
                 headers:{
                     'Content-Type': 'application/json'

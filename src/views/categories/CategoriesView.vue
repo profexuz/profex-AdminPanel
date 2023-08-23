@@ -6,6 +6,8 @@ import CategorySkeletonComponent from "@/components/categories/CategorySkeletonC
 import CategoryViewComponent from "@/components/categories/CategoryViewComponent.vue";
 import axios from '@/plugins/axios'
 import { useI18n } from 'vue-i18n';
+import {getToken} from "@/helpers/TokenHelper";
+import {getCookie} from "@/helpers/CookieHelper";
 
 
 export default defineComponent({
@@ -16,8 +18,10 @@ export default defineComponent({
     methods:{
         async getDataAsync(){
             this.isLoaded = false;
+            const token = getCookie("access_token");
             var response = await axios.get<CategoryViewModel[]>("/api/common/category");
             this.isLoaded=true;
+            console.log(response.data);
             this.categoriesList = response.data;
         }
 
