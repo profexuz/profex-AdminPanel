@@ -25,6 +25,7 @@ export default defineComponent({
             this.categoriesList = response.data;
         }
 
+
     },
     data() {
         return {
@@ -148,6 +149,8 @@ export default defineComponent({
         </template>
     </ul>
     <!--end:: Categories-->
+
+
 
 
 </template>
