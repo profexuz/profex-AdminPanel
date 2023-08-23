@@ -77,8 +77,10 @@ export default defineComponent({
       </ol>
     </nav>
     <!--end:: BreadCrumb-->
+
    
     <CategoryCreateModalComponent></CategoryCreateModalComponent>
+
 
   <!--begin:: Categories Skeletons-->
     <ul v-show="isLoaded==false">
