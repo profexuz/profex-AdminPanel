@@ -6,9 +6,7 @@ import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
 import FlowbiteSetup from "@/FlowbiteSetup.vue";
 import CategoryEditComponent from "./CategoryEditComponent.vue";
-
 import CategoryDeleteComponents from "./CategoryDeleteComponents.vue";
-
 
 
 export default defineComponent({
