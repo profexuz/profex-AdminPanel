@@ -1,3 +1,50 @@
+<script lang="ts">
+import { defineComponent} from 'vue';
+import axios from '@/plugins/axios';
+import { LoginDtos } from '@/dtos/AuthDto';
+
+ export default defineComponent({
+    data(){
+        return{
+            phoneNumber: "" as String,
+            password: "" as String,
+            responseToken: "" as String,
+            existError: false as boolean
+        }
+    },
+    methods:{
+        async errorClose(){
+          this.existError = false;
+        },
+        async loginAsync(){
+            var loginDto = new LoginDtos();
+            loginDto.password = this.password;
+            loginDto.phoneNumber = this.phoneNumber;
+            var jsonContent:string = JSON.stringify(loginDto);
+            var response = await axios.post("/api/administrator/login",jsonContent,
+            {
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            console.log(response.status);
+            if(response.status == 200 )
+            {
+                var token:string = response.data.token;
+                document.cookie = "access_token=" + token + "; expires: SESSION; path=/";
+                this.$router.push("/dashboard");
+            }
+            else
+            {
+                this.existError = true;
+            }
+        }
+    }
+    
+ });
+
+</script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -20,7 +67,7 @@
                                 Phone Number</label>
                             <input v-model="phoneNumber" type="text" id="PhoneNumber"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com">
+                                placeholder="+998 88 999 77 30">
                         </div>
                         <div>
                             <label for="password"
@@ -52,34 +99,31 @@
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                             This site for only Profex administrators!
                         </p>
+                    </div>
+                <div id="popup-modal"  v-show="this.existError" class=" flex flex-col items-center justify-center fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full  ">
+                    <div class="relative w-full max-w-md max-h-full">
+                        <div class="relative bg-gray-300 rounded-lg shadow dark:bg-gray-700">
+                            <button @click="errorClose" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="#BB2525" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="p-6 text-center">
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="#BB2525" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <h3 class="mb-5 text-lg font-normal text-red-700 dark:text-gray-400">Login or password incorrect</h3>
+                                <button @click="errorClose" class="py-2.5  mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-gray-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 px-12">
+                                    Ok
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </section>
 </template>
-<script lang="ts">
-import { defineComponent} from 'vue';
-import axios from '@/plugins/axios'
 
- export default defineComponent({
-    data(){
-        return{
-            phoneNumber: "" as String,
-            password: "" as String,
-            responseToken: "" as String
-        }
-    },
-    methods:{
-        async loginAsync(){
-            const formData = new FormData();   
-            formData.append('PhoneNumber', this.phoneNumber.toString());
-            formData.append('Password', this.password.toString()); 
-            var response = await axios.post("/api/master/register/login", formData);
-            this.responseToken = response.data.token;
-            alert(this.responseToken);
-        }
-    }
-    
- });
-
-</script>

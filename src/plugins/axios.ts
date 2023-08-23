@@ -8,6 +8,10 @@ const instance = axios.create({
 instance.interceptors.response.use(
     response => response,
     error => {
+        if(error.response.status == 400)
+        {
+            return error.response;
+        }
         if (error.response.status === 401) {
             // Redirect to unauthorized page
             // You can use Vue Router to navigate
