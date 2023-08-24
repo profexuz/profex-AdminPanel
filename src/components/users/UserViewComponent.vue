@@ -4,11 +4,13 @@ import IconCalendarEdit from "../../components/icons/interface/IconCalendarEdit.
 import {formatDate} from "@/helpers/DateHelper";
 import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
+import UserEditModal from "@/components/users/UserEditModal.vue";
 
 
 export default defineComponent({
     components:
     {
+        UserEditModal,
         IconCalendar,
         IconCalendarEdit
     },
@@ -76,14 +78,15 @@ export default defineComponent({
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                 </svg>
             </a>
-            <button type="button"
-                    class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Edit
-                <!-- <IconEdit></IconEdit>-->
-            </button>
+<!--            <button type="button"-->
+<!--                    class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">-->
+<!--                Edit-->
+
+<!--            </button>-->
+            <UserEditModal></UserEditModal>
             <button type="button"
                     class="mt-2 w-full justify-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                <!-- <IconDelete></IconDelete>-->
+
                 Delete
             </button>
 

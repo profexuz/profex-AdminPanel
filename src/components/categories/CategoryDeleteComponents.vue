@@ -39,7 +39,7 @@
 
 <template>
     <!--begin:: Delete Modal Button-->
-    <button @click="openDeleteModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+    <button @click="openDeleteModal" >
         <IconDelete></IconDelete>
     </button>
     <!--end:: Delete Modal Button-->

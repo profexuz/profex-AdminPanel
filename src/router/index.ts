@@ -29,6 +29,10 @@ const router = createRouter({
           component: ()=> import("../views/users/UsersView.vue")
         },
         {
+          path: 'skills',
+          component: ()=> import("../views/skills/SkillView.vue")
+        },
+        {
           path: "settings",
           component: ()=> import("../views/settings/SettingsView.vue")
         }

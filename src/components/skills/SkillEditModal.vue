@@ -1,60 +1,65 @@
 <script lang="ts">
-import Cookies from 'js-cookie';
-import IconCreate from "@/components/icons/interface/IconCreate.vue";
 import { defineComponent } from "vue";
-import axios from "@/plugins/axios";
+import IconEdit from "@/components/icons/interface/IconEdit.vue";
+import axios from '@/plugins/axios';
 export default defineComponent({
     components: {
-        IconCreate
+        IconEdit
+    },
+    props: {
+        nameProp:String,
+        descriptionProp:String,
+        idProp:Number,
+        CategoryId:Number
     },
     data() {
         return {
-            showModal:false ,
-            name: "" as String,
-            description: "" as string,
-            createError: false as boolean
+            showModal: false,
+            Name: this.nameProp,
+            Description: "",
+            skillName:""
         };
     },
-    methods: {
-        openModal() {
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-        },
-        async createAsync() {
-            const formData = new FormData();
-            formData.append("Name", this.name);
-            formData.append("Description", this.description);
-            const responce = await axios.post("/api/common/category", formData);
+    methods:
+        {
+            openModal() {
+                this.skillName = this.nameProp!;
+                this.Description = this.descriptionProp!;
+                this.showModal = true;
+            },
+            closeModal() {
+                this.showModal = false;
+            },
+            async submitForm()
+            {
+                const formData = new FormData();
+                formData.append("categoryId", `${this.CategoryId}`);
+                formData.append("Description", this.Description);
+                formData.append("Title", this.skillName);
+                console.log(this.skillName)
+                console.log(this.CategoryId)
+                console.log(this.idProp)
+                const responce = await axios.put("/api/common/skills/skill/(id)?id="+this.idProp, formData);
 
-            if (responce.status == 200) {
-                // this.$router.push('/categories');
-
-                location.reload();
-                this.closeModal();
+                if (responce.status == 200) {
+                    location.reload();
+                    this.closeModal();
+                }
             }
-            else {
-                this.createError = true;
-            }
-        }
-    },
+        },
 });
 </script>
+
 <template>
-    <div class="flex w-100 justify-end">
-        <button @click="openModal" type="button"
-            class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-            <div class="flex flex-wrap items-center">
-                <IconCreate></IconCreate>
-                <p class="mx-2">{{$t("create") }}</p>
-            </div>
-        </button>
-    </div>
+  <!--begin:: Edit Modal Button-->
+    <button  @click="openModal"
+             class="mr-2 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center  dark:bg-yellow-400 dark:hover:bg-yellow-500 dark:focus:ring-yellow-600">
+        <IconEdit></IconEdit>
+    </button>
 
+  <!--end:: Edit Modal Button-->
 
-
-    <!-- Main modal -->
+  <!--For Edit Modal Window  Start-->
     <div v-if="showModal"
          class="fixed top-0 left-0 right-0 z-50 w-full h-screen flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative w-full max-w-md max-h-full">
@@ -72,14 +77,14 @@ export default defineComponent({
                 </button>
                 <div class="px-6 py-6 lg:px-8">
                     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    Create Category</h3>
-                    <form @submit.prevent="createAsync" class="space-y-6" action="#">
+                       Skill Edit </h3>
+                    <form @submit.prevent="submitForm" class="space-y-6" action="#">
                         <!--Category Name Edit Start-->
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Name
                             </label>
-                            <input v-model="name" type="text" name="name" id="name" autocomplete="off"
+                            <input v-model="skillName" type="text" name="name" id="name"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                    required>
                         </div>
@@ -90,16 +95,16 @@ export default defineComponent({
                             <label for="description"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Description</label>
-                            <textarea v-model="description" name="description" id="description"
+                            <textarea v-model="Description" name="description" id="description"
                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                       required>
                             </textarea>
                         </div>
                         <!--Edit Description End-->
                         <div class="m-5">
-                            <button  type="submit"
-                                    class="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
-                                Create
+                            <button @click="submitForm"  type="submit"
+                                    class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
+                                Update
                             </button>
                         </div>
 
@@ -109,5 +114,7 @@ export default defineComponent({
             </div>
         </div>
     </div>
+  <!--For Edit Modal Window  End-->
+
 
 </template>

@@ -28,8 +28,6 @@ export default defineComponent({
             baseURL: "" as String,
             createdAtString: "" as String,
             updatedAtString: "" as String,
-            editName: "Salom" as String,
-            editDesc: "Kurwa" as String,
             localId: 0  as Number
         }
     },
@@ -80,7 +78,10 @@ export default defineComponent({
             </CategoryEditComponent>
 
             <button type="button"
-                    class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    class="mt-5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300
+                     font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-red-600
+                      dark:hover:bg-red-700 dark:focus:ring-red-800"
+            >
                 <CategoryDeleteComponents :id-category=id>
 
                 </CategoryDeleteComponents>
