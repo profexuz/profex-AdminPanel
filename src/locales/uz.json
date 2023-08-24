@@ -7,5 +7,17 @@
     "skills": "Ko'nikmalar",
     "en":"Inglizcha",
     "ru":"Ruscha",
-    "uz":"O'zbekcha"
+    "uz":"O'zbekcha",
+    "fName": "Ism",
+    "lName": "Familiya",
+    "image": "Rasm",
+    "delete": "O'chirish",
+    "edit": "Yangilash",
+    "create": "Yaratish",
+    "deleteMessage": "Bu ma'lumotni o'chirishni xohlaysizmi?",
+    "yesBtn": "Xa",
+    "noBtn": "Yo'q",
+    "phone": "Telefon",
+    "description": "Tavsifi"
+
 }

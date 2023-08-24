@@ -13,7 +13,7 @@ export default defineComponent({
             nameProp:String,
             lastnameProp:String,
             phoneProp:String,
-
+            Free:Boolean,
         },
     data(){
         return{
@@ -46,7 +46,7 @@ export default defineComponent({
             if (this.selectedImage) {
                 formData.append("ImagePath", this.selectedImage);
             }
-            const responce = await axios.put("/api/common/user/update/" + this.editId, formData, {
+            const responce = await axios.put("/api/common/master/" + this.editId, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -63,14 +63,14 @@ export default defineComponent({
 </script>
 
 <template>
-    <!-- Modal toggle -->
+  <!-- Modal toggle -->
     <button @click="openModal"
             class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        {{$t("edit")}}
 
+        {{$t("edit")}}
     </button>
 
-    <!-- Main modal -->
+  <!-- Main modal -->
     <div v-if="modalShow"
          class="fixed top-0 left-0 right-0 z-50 w-full h-screen flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative w-full max-w-md max-h-full">
@@ -98,7 +98,7 @@ export default defineComponent({
                             </div>
                             <div>
                                 <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
-                                    {{$t("lName")}} </label>
+                                    {{$t("lName")}}v </label>
                                 <input v-model="vlname" type="text" class="bg-gray-50 border border-gray-300 text-gray-900
                                        text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                         block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
@@ -125,7 +125,7 @@ export default defineComponent({
                         <button  type="submit"
 
                                  class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
-                           {{$t("edit")}}
+                            {{$t("edit")}}
                         </button>
 
                     </form>

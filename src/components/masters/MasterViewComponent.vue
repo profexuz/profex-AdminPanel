@@ -1,16 +1,21 @@
 <script lang="ts">
-import IconEdit from "../../components/icons/interface/IconEdit.vue"
-import IconDelete from "../../components/icons/interface/IconDelete.vue"
+
 import IconCalendar from "../../components/icons/interface/IconCalendar.vue";
 import IconCalendarEdit from "../../components/icons/interface/IconCalendarEdit.vue";
 import {formatDate} from "@/helpers/DateHelper";
 import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
+import MasterDeleteComponent from "@/components/masters/MasterDeleteComponent.vue";
+import MasterEditModal from "@/components/masters/MasterEditModal.vue";
+import UserEditModal from "@/components/users/UserEditModal.vue";
 
 
 export default defineComponent({
     components:{
-        IconEdit, IconDelete,
+        UserEditModal,
+        MasterEditModal,
+        MasterDeleteComponent,
+
         IconCalendar, IconCalendarEdit
     },
     props: {
@@ -85,15 +90,18 @@ export default defineComponent({
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                 </svg>
             </a> 
+
+            <MasterEditModal
+                :editId=id
+                :nameProp=firstName
+                :lastnameProp=lastName
+                :phoneProp=phoneNumber
+                :free=isFree
+            ></MasterEditModal>
                 <button type="button"
-                        class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Edit
-                <!-- <IconEdit></IconEdit>-->
-                </button>
-                <button type="button"
-                        class="mt-2 w-full justify-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        class=" w-full">
                         <!-- <IconDelete></IconDelete>-->
-                        Delete
+                       <MasterDeleteComponent :id-master="id"></MasterDeleteComponent>
                 </button>
             
         </div>
