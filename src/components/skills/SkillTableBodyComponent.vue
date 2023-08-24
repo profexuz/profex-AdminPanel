@@ -11,9 +11,13 @@ import IconCalendarEdit from "@/components/icons/interface/IconCalendarEdit.vue"
 import SkillEditModal from "@/components/skills/SkillEditModal.vue";
 import SkillDeleteModal from "@/components/skills/SkillDeleteModal.vue";
 
+import SkillTableHeaderComponent from "@/components/skills/SkillTableHeaderComponent.vue";
+import {CategoryViewModel} from "@/viewmodels/CategoryViewModels";
+
 export default defineComponent( {
 
     components:{
+        SkillTableHeaderComponent,
         SkillDeleteModal,
         SkillEditModal,
         IconCalendarEdit,
@@ -28,11 +32,17 @@ export default defineComponent( {
     },
     methods:{
         formatDate,
-        async getDataAsync()
+        async getDataCategory(){
+            var catresponse = await axios.get<CategoryViewModel[]>("/api/common/category");
+            this.categoryList = catresponse.data;
+        },
+        async getDataChildAsync(myId:number)
         {
-            var responce = await axios.get<SkillViewModel[]>("/api/common/category/getall/by/categoryId?categoryId=67");
+
+            this.Aurl = `/api/common/category/getall/by/categoryId?categoryId=${myId}`
+            var responce = await axios.get<SkillViewModel[]>(this.Aurl);
             this.SkillList = responce.data;
-            console.log(this.SkillList)
+            console.log(this.SkillList.pop())
         }
 
     },
@@ -43,11 +53,14 @@ export default defineComponent( {
             baseURL: "" as String,
             createdAtString: "" as String,
             updatedAtString: "" as String,
+            Aurl:"" as String,
+            selectedId : 0,
+            categoryList: [] as CategoryViewModel[]
         }
     },
     async mounted(){
-        await this.getDataAsync();
-
+        await this.getDataChildAsync(this.selectedId);
+        await  this.getDataCategory();
     },
 
 
@@ -55,6 +68,20 @@ export default defineComponent( {
 </script>
 <template>
 
+    <div class="mb-3">
+        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Category</label>
+        <select @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+            <option class="text-base" v-for="item in categoryList" :value="item.id">{{item.name}}</option>
+
+        </select>
+
+    </div>
+    <div class="relative overflow-x-auto shadow-md ">
+        <table class="w-full  text-sm  text-left text-gray-800 dark:text-gray-50">
+            <SkillTableHeaderComponent></SkillTableHeaderComponent>
+
+            <tbody >
                     <tr v-for="element in SkillList"
                     class="border-t border-gray-200 dark:border-gray-100">
                 <td class="px-6 py-4 bg-gray-50 dark:bg-gray-700">
@@ -84,7 +111,10 @@ export default defineComponent( {
                     </button>
                 </td>
             </tr>
+            </tbody>
 
+        </table>
+    </div>
 
 
 </template>

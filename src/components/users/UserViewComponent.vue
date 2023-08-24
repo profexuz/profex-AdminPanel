@@ -1,10 +1,11 @@
 <script lang="ts">
 import IconCalendar from "../../components/icons/interface/IconCalendar.vue";
 import IconCalendarEdit from "../../components/icons/interface/IconCalendarEdit.vue";
+import UserDeleteComponent from "../../components/users/UserDeleteComponent.vue"
 import {formatDate} from "@/helpers/DateHelper";
 import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
-import UserEditModal from "@/components/users/UserEditModal.vue";
+import UserEditModal from "./UserEditModal.vue";
 
 
 export default defineComponent({
@@ -12,7 +13,8 @@ export default defineComponent({
     {
         UserEditModal,
         IconCalendar,
-        IconCalendarEdit
+        IconCalendarEdit,
+        UserDeleteComponent
     },
     props: {
         id: Number,
@@ -53,7 +55,7 @@ export default defineComponent({
 <template >
     <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="image-container p-1">
-            <img class="image-square rounded-lg" v-bind:src="imageFullPath"  alt="" />
+            <img class="image-square rounded-lg" v-bind:src = "imageFullPath"  alt="" />
         </div>
         <div class="p-3">
             <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} {{lastName}}</h5>
@@ -83,11 +85,17 @@ export default defineComponent({
 <!--                Edit-->
 
 <!--            </button>-->
-            <UserEditModal></UserEditModal>
+            <UserEditModal 
+                :editId=id
+                :nameProp=firstName
+                :lastnameProp=lastName
+                :phoneProp=phoneNumber>
+            </UserEditModal>
             <button type="button"
                     class="mt-2 w-full justify-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                <UserDeleteComponent :id-user=id>
 
-                Delete
+                </UserDeleteComponent>
             </button>
 
         </div>
