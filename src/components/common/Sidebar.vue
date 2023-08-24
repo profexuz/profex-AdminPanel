@@ -4,8 +4,8 @@ import IconCategories from "../icons/IconCategories.vue";
 import IconMasters from "..//icons/IconMasters.vue";
 import IconUsers from "../icons/IconUsers.vue";
 import IconSettings from "../icons/IconSettings.vue";
-import { useI18n } from 'vue-i18n';
 import IconSkills from "@/components/icons/IconSkills.vue";
+import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 </script>
@@ -17,7 +17,7 @@ const { t } = useI18n();
             <RouterLink to="dashboard">
                <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <IconDashboard></IconDashboard>
-                  <span class="ml-3">{{ $t("dashboard") }}</span>
+                  <span class="ml-3"> {{ $t("dashboard") }} </span>
                </div>
             </RouterLink>
          </li>

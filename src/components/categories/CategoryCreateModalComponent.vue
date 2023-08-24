@@ -72,12 +72,12 @@ export default defineComponent({
                 </button>
                 <div class="px-6 py-6 lg:px-8">
                     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    Create Category</h3>
+                        {{$t("categories")}}   {{$t("create")}} </h3>
                     <form @submit.prevent="createAsync" class="space-y-6" action="#">
                         <!--Category Name Edit Start-->
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Name
+                                {{$t("fName")}}
                             </label>
                             <input v-model="name" type="text" name="name" id="name" autocomplete="off"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -89,7 +89,7 @@ export default defineComponent({
                         <div>
                             <label for="description"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Description</label>
+                                {{$t("description")}}</label>
                             <textarea v-model="description" name="description" id="description"
                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                       required>

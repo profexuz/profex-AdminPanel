@@ -66,8 +66,8 @@ export default defineComponent({
     <!-- Modal toggle -->
     <button @click="openModal"
             class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        {{$t("edit")}}
 
-        Edit
     </button>
 
     <!-- Main modal -->
@@ -89,7 +89,7 @@ export default defineComponent({
                         <div class="grid md:grid-cols-2 md:gap-6">
                             <div>
                                 <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
-                                    First Name </label>
+                                    {{$t("fName")}} </label>
                                 <input v-model="vname" type="text"  class="bg-gray-50 border border-gray-300 text-gray-900
                                        text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                         block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
@@ -98,7 +98,7 @@ export default defineComponent({
                             </div>
                             <div>
                                 <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
-                                    Last Name </label>
+                                    {{$t("lName")}} </label>
                                 <input v-model="vlname" type="text" class="bg-gray-50 border border-gray-300 text-gray-900
                                        text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                         block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
@@ -108,13 +108,13 @@ export default defineComponent({
                         </div>
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">
-                                Image </label>
+                                {{$t("image")}} </label>
                             <input @change="handleImageChange" accept="image/png, image/gif, image/jpeg" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
                         </div>
 
                         <div class="mb-6">
                             <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
-                                Phone </label>
+                                {{$t("phone")}} </label>
                             <input v-model="vphone" type="text" class="bg-gray-50 border border-gray-300 text-gray-900
                                    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                     block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
@@ -125,7 +125,7 @@ export default defineComponent({
                         <button  type="submit"
 
                                  class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
-                            Update
+                           {{$t("edit")}}
                         </button>
 
                     </form>

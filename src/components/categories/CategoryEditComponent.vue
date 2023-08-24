@@ -70,13 +70,13 @@ export default defineComponent({
                     <span class="sr-only">Close modal</span>
                 </button>
                 <div class="px-6 py-6 lg:px-8">
-                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Edit
-                        Category</h3>
+                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                        {{$t("categories")}}</h3>
                     <form @submit.prevent="submitForm" class="space-y-6" action="#">
                         <!--Category Name Edit Start-->
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category
-                                name
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{$t("fName")}}
                             </label>
                             <input v-model="categoryName" type="text" name="name" id="name"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -88,7 +88,7 @@ export default defineComponent({
                         <div>
                             <label for="description"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Category  description</label>
+                                {{$t("description")}}</label>
                             <textarea v-model="categoryDescription" name="description" id="description"
                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                       required>
@@ -98,7 +98,7 @@ export default defineComponent({
                         <div class="m-5">
                             <button @click="submitForm"  type="submit"
                                     class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
-                                Update
+                                {{$t("edit")}}
                             </button>
                         </div>
 
