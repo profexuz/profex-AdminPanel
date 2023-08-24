@@ -1,20 +1,24 @@
 <script lang="ts">
 
 import {defineComponent} from "vue";
-
-export default defineComponent(
-{
+import IconEdit from "@/components/icons/interface/IconEdit.vue";
+import axios from '@/plugins/axios';
+export default defineComponent({
+    components: {
+        IconEdit
+    },
     props:
     {
         editId : Number,
         nameProp:String,
         lastnameProp:String,
-        phoneProp:String
+        phoneProp:String,
+        
     },
     data(){
         return{
             modalShow : false,
-            vname : "" ,
+            vname : ""  ,
             vlname: "" ,
             vphone: "" ,
         };
@@ -22,19 +26,28 @@ export default defineComponent(
     methods:{
         openModal(){
             this.modalShow = true;
-            this.vname = this.nameProp.toString();
-            this.vlname = this.lastnameProp.toString();
-            this.vphone = this.phoneProp.toString();
+            this.vname = this.nameProp!;
+            this.vlname = this.lastnameProp!;
+            this.vphone = this.phoneProp!;
         },
         closeModal()
         {
             this.modalShow = false;
+        },
+        async submitForm(){
+            const formData = new FormData();
+                formData.append("FirstName", this.vname);
+                formData.append("LastName", this.vlname);
+                formData.append("PhoneNumber", this.vphone)
+            const responce = await axios.put("/api/common/user/update/"+this.editId, formData);
+            if (responce.status == 200) {
+                location.reload();
+                this.closeModal();
+            }
         }
 
     }
-
-
-})
+});
 </script>
 
 <template>
@@ -60,12 +73,12 @@ export default defineComponent(
                     <span class="sr-only">Close modal</span>
                 </button>
                 <div class="px-6 py-6 lg:px-8">
-                    <form class="space-y-6" action="#">
+                    <form @submit.prevent="submitForm" class="space-y-6" action="#">
                         <div class="grid md:grid-cols-2 md:gap-6">
                             <div>
                                 <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
                                     First Name </label>
-                                <input type="text"  class="bg-gray-50 border border-gray-300 text-gray-900
+                                <input v-model="vname" type="text"  class="bg-gray-50 border border-gray-300 text-gray-900
                                        text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                         block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
                                         dark:text-white"
@@ -74,7 +87,7 @@ export default defineComponent(
                             <div>
                                 <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
                                     Last Name </label>
-                                <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900
+                                <input v-model="vlname" type="text" class="bg-gray-50 border border-gray-300 text-gray-900
                                        text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                         block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
                                         dark:text-white"
@@ -90,7 +103,7 @@ export default defineComponent(
                         <div class="mb-6">
                             <label  class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">
                                 Phone </label>
-                            <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900
+                            <input v-model="vphone" type="text" class="bg-gray-50 border border-gray-300 text-gray-900
                                    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
                                     block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500
                                     dark:text-white"

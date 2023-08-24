@@ -10,10 +10,12 @@ import type {CategoryViewModel} from "@/viewmodels/CategoryViewModels";
 import CategoryCreateModalComponent from "@/components/categories/CategoryCreateModalComponent.vue";
 import SkillCreateModal from "@/components/skills/SkillCreateModal.vue";
 import {Dropdown, DropdownInterface, DropdownOptions} from "flowbite";
+import SkillCategorySelect from "@/components/skills/SkillCategorySelect.vue";
 
 export default defineComponent({
     components:
     {
+        SkillCategorySelect,
         SkillCreateModal,
         CategoryCreateModalComponent,
         SkillTableBodyComponent,
@@ -70,7 +72,7 @@ export default defineComponent({
                               d="m1 9 4-4-4-4" />
                     </svg>
                     <a
-                            class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
                         {{  $t('skills') }}</a>
                 </div>
             </li>
@@ -81,41 +83,12 @@ export default defineComponent({
     </nav>
         <!--end:: BreadCrumb-->
 
+<SkillTableBodyComponent></SkillTableBodyComponent>
 
 
-        <div class="flex">
-      <div class="mr-8">
-          <div class="relative w-48  shadow-md sm:rounded-lg">
-              <table class="w-48 text-sm  text-left text-gray-800 dark:text-gray-50">
-                <SkillCategoryHeaderTableComponent></SkillCategoryHeaderTableComponent>
-                <tbody v-for="element in categoriesList">
-                  <SkillCategoryBodyComponent
-                    :cId = element.id
-                    :cName = element.name
-                                        >
-                  </SkillCategoryBodyComponent>
-                </tbody>
-              </table>
-          </div>
-      </div>
-
-      <div>
-
-          <div class="relative overflow-x-auto shadow-md ">
-              <table class="w-full  text-sm  text-left text-gray-800 dark:text-gray-50">
-                <SkillTableHeaderComponent></SkillTableHeaderComponent>
-
-                  <tbody >
-                <SkillTableBodyComponent></SkillTableBodyComponent>
-                  </tbody>
-
-              </table>
-          </div>
-
-      </div>
 
 
-    </div>
+
 
 </template>
 
