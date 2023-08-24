@@ -72,9 +72,10 @@ export default defineComponent({
         <div class="flex-none w-16">
 
             <CategoryEditComponent
-                :name-prop=name
-                :description-prop=description
-                :id-prop=id>
+                :nameProp=name
+                :descriptionProp=description
+
+                :idProp=id>
             </CategoryEditComponent>
 
             <button type="button"

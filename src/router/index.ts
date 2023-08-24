@@ -10,7 +10,7 @@ const router = createRouter({
       path: '/',
       name: 'main',
       component: ()=> import("../layouts/Layouts.vue"),
-      redirect:"/dashboard",
+      redirect:"/auth/login",
       children: [
         {
           path: "dashboard",

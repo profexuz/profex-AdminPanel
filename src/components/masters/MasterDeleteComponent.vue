@@ -1,14 +1,14 @@
 <script lang="ts">
     import { defineComponent } from "vue";
-    import IconDelete from "@/components/icons/interface/IconDelete.vue";
+
     import axios from '@/plugins/axios';
     
     export default defineComponent({
         components: {
-            IconDelete
+
         },
         props:{
-            idUser:Number
+            idMaster:Number
         },
         data() {
             return {
@@ -24,10 +24,10 @@
             },
             async confirmDelete() {
 
-                const response = await axios.delete("/api/common/user/"+this.idUser);
+                const response = await axios.delete("/api/common/master/"+this.idMaster);
                 
                
-                console.log("Deleting the category...");
+                console.log("Deleting the master...");
     
 
                 this.closeDeleteModal();
@@ -41,6 +41,7 @@
     <!--begin:: Delete Modal Button-->
     <button @click="openDeleteModal"
             class="mt-2 w-full justify-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+
         Delete
     </button>
     <!--end:: Delete Modal Button-->
