@@ -18,5 +18,9 @@
     "lName": "Last Name",
     "image": "Image",
     "phone": "Phone",
-    "description": "Description"
+    "description": "Description",
+    "password": "Password",
+    "password2": "Password confirm",
+    "next": "Next",
+    "code": "Write confirmation code"
 }

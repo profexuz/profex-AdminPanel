@@ -18,6 +18,10 @@
     "yesBtn": "Xa",
     "noBtn": "Yo'q",
     "phone": "Telefon",
-    "description": "Tavsifi"
+    "description": "Tavsifi",
+    "password": "Maxfiy so'z",
+    "password2": "Maxfiy so'zni tasdqilash",
+    "next": "Keyingi",
+    "code": "Tasdiqlash raqamini kiriting"
 
 }
