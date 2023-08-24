@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from "@/views/auth/Login.vue"
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,6 +27,10 @@ const router = createRouter({
         {
           path: 'users',
           component: ()=> import("../views/users/UsersView.vue")
+        },
+        {
+          path: 'skills',
+          component: ()=> import("../views/skills/SkillView.vue")
         },
         {
           path: "settings",

@@ -7,13 +7,3 @@
         </g>
     </svg>
 </template>
-
-<script>
-export default {
-    name: "IconEdit"
-}
-</script>
-
-<style scoped>
-
-</style>

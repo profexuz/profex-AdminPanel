@@ -1,30 +1,37 @@
 <script lang="ts">
 import { defineComponent} from 'vue';
 import { CategoryViewModel } from '@/viewmodels/CategoryViewModels';
-import IconCreate from '@/components/icons/interface/IconCreate.vue';
+import CategoryCreateModalComponent from '@/components/categories/CategoryCreateModalComponent.vue';
 import CategorySkeletonComponent from "@/components/categories/CategorySkeletonComponent.vue";
 import CategoryViewComponent from "@/components/categories/CategoryViewComponent.vue";
 import axios from '@/plugins/axios'
 import { useI18n } from 'vue-i18n';
+import {getToken} from "@/helpers/TokenHelper";
+import {getCookie} from "@/helpers/CookieHelper";
+
 
 export default defineComponent({
     components:{
-        CategoryViewComponent, CategorySkeletonComponent,
-        IconCreate
+        CategoryViewComponent, 
+        CategorySkeletonComponent,
+        CategoryCreateModalComponent,
     },
     methods:{
         async getDataAsync(){
             this.isLoaded = false;
-            var response = await axios.get<CategoryViewModel[]>("/api/common/categories");
+            const token = getCookie("access_token");
+            var response = await axios.get<CategoryViewModel[]>("/api/common/category");
             this.isLoaded=true;
+            console.log(response.data);
             this.categoriesList = response.data;
         }
+
     },
     data() {
         return {
             categoriesList: [] as CategoryViewModel[],
             defaultSkeletons: 4 as Number,
-            isLoaded: false as Boolean
+            isLoaded: false as Boolean,
         }
     },
     setup(){
@@ -39,7 +46,7 @@ export default defineComponent({
 <template>
 
 <!--begin:: BreadCrumb-->
-<nav class="flex mb-5" aria-label="Breadcrumb">
+<nav class="flex justify-between mb-5" aria-label="Breadcrumb">
       <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
           <a href="#"
@@ -65,10 +72,12 @@ export default defineComponent({
           </div>
         </li>
       </ol>
-    </nav>
-    <!--end:: BreadCrumb-->
 
-    <!--begin:: Categories Skeletons-->
+    <!--end:: BreadCrumb-->
+   
+    <CategoryCreateModalComponent></CategoryCreateModalComponent>
+</nav>
+  <!--begin:: Categories Skeletons-->
     <ul v-show="isLoaded==false">
         <template v-for="element in defaultSkeletons">
             <CategorySkeletonComponent
@@ -79,14 +88,7 @@ export default defineComponent({
     <!--end:: Categories Skeletons-->
 
     <!--begin:: Categories-->
-    <div class="flex w-100 justify-end">
-        <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
-            <div class="flex flex-wrap items-center">
-                <IconCreate></IconCreate>
-                <p class="mx-2">{{ $t("create") }}</p>
-            </div>
-        </button>
-    </div>
+
     <ul v-show="isLoaded==true">
         <template v-for="element in categoriesList">
             <CategoryViewComponent
@@ -100,4 +102,6 @@ export default defineComponent({
         </template>
     </ul>
     <!--end:: Categories-->
+
+
 </template>

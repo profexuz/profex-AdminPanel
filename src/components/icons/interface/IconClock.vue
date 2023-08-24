@@ -4,12 +4,4 @@
     </svg>
 </template>
 
-<script>
-export default {
-    name: "IconClock"
-}
-</script>
 
-<style scoped>
-
-</style>

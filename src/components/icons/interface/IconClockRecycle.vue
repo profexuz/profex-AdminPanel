@@ -7,13 +7,3 @@
         </g>
     </svg>
 </template>
-
-<script>
-export default {
-    name: "IconClockRecycle"
-}
-</script>
-
-<style scoped>
-
-</style>
