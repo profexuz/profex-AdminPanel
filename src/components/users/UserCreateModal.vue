@@ -37,15 +37,15 @@
         async submitRegister(){
 
              const registerForm = new FormData();
-             registerForm.append("FirstName",this.vName);
-             registerForm.append("LastName",this.vLastName);
+             registerForm.append("FirstName", this.vName);
+             registerForm.append("LastName", this.vLastName);
              registerForm.append("PhoneNumber",this.vPhone);
              registerForm.append("Password",this.vPassword);
              const registerResponse = await axios.post("/api/user/register",registerForm)
             if(registerResponse.status==200){
+                await this.submitSendCode();
                 this.CloseRegister();
                 this.OpenVerify();
-                await this.submitSendCode();
             }
             else {
                 alert("Something wrong in Register form");
@@ -54,10 +54,11 @@
          async submitSendCode(){
              this.verifyPhone = this.vPhone.substring(1);
              const codeSendResponse = await axios.post("/api/user/register/send-code?phone=%2B"+this.verifyPhone);
+             this.verifyPhone = this.vPhone;
+
              if(codeSendResponse.status == 200)
              {
                  this.CloseRegister();
-                 this.OpenVerify();
              }
              else{
                  alert("Something wrong in Send Code form");
@@ -68,8 +69,11 @@
 
          },
          async submitVerify(){
+             const formData = new FormData();
+             formData.append("PhoneNumber",this.vPhone);
+             formData.append("Code", this.vConfirmCode);
             const verifyForm ={
-                phoneNumber: this.vPhone,
+                phoneNumber: this.verifyPhone,
                 code: this.vConfirmCode
             }
             const verifyResponse = await axios.post("/api/user/register/verify",verifyForm);

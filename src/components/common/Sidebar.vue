@@ -6,6 +6,7 @@ import IconUsers from "../icons/IconUsers.vue";
 import IconSettings from "../icons/IconSettings.vue";
 import IconSkills from "@/components/icons/IconSkills.vue";
 import { useI18n } from 'vue-i18n';
+import IconPosts from "@/components/icons/IconPosts.vue";
 const { t } = useI18n();
 
 </script>
@@ -53,6 +54,16 @@ const { t } = useI18n();
                <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <IconSkills></IconSkills>
                   <span class="flex-1 ml-3 whitespace-nowrap">{{ $t("skills") }}</span>
+               </div>
+            </RouterLink>
+         </li>
+         <li>
+            <RouterLink to="posts">
+               <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                  <IconPosts></IconPosts>
+                  <span class="flex-1 ml-3 whitespace-nowrap">
+                     {{ $t("Posts") }}
+                  </span>
                </div>
             </RouterLink>
          </li>
