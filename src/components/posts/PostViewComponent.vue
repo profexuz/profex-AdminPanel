@@ -5,10 +5,12 @@ import {formatDate} from "@/helpers/DateHelper";
 import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
 import FlowbiteSetup from "@/FlowbiteSetup.vue";
+import PostDeleteModal from "@/components/posts/PostDeleteModal.vue";
 
 
 export default defineComponent({
     components:{
+        PostDeleteModal,
         FlowbiteSetup,
         IconCalendar, IconCalendarEdit
     },
@@ -65,27 +67,18 @@ export default defineComponent({
 </script>
 
 <template>
-
         <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <div class="image-container px-2 pt-2">
-                        <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} {{lastName}}</h5>
-
+                    <div class="image-container px-2 ">
+                        <h5 class="text-2xl pt-1 pb-1 font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} {{lastName}}</h5>
                         <img class="image-square rounded-lg" v-bind:src="imageFullPath"  alt="" />
-
                     </div>
                     <div class="px-2 pt-1 pb-2">
-                            <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{title}} </h5>
-                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{description}}</p>
-                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{phoneNumber}}
-                            <span class=" ml-1 bg-green-700  dark:bg-green-700  inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-gray-800 rounded-full  dark:text-gray-300">
-                            <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                                <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                            </svg>
-                            </span>
-                        </p>
-                        <p class=" font-normal text-gray-700 dark:text-gray-400">region: {{region}}</p>
-                        <p class=" font-normal text-gray-700 dark:text-gray-400">district: {{district}}</p>
-                        <p class=" font-normal text-gray-700 dark:text-gray-400">category: {{categoryName}}</p>
+                            <h5 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{$t('title')}}: {{title}} </h5>
+                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{$t('description')}}: {{description}}</p>
+                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{$t('region')}}: {{region}}</p>
+                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{$t('district')}}: {{district}}</p>
+                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{$t('categories')}}: {{categoryName}}</p>
+                        <p class=" font-normal text-gray-700 dark:text-gray-400">{{phoneNumber}}    </p>
 
 
 
@@ -95,9 +88,9 @@ export default defineComponent({
                         </div>
                         <div class="flex mt-1 flex-wrap items-center ">
                             <IconCalendarEdit></IconCalendarEdit>
-                            <p class="mx-1 font-normal bold text-gray-700 dark:text-gray-400">{{ updatedAtString }}</p>
+                            <p class="mx-1 font-normal bold text-gray-700 dark:text-gray-400">{{ createdAtString}}</p>
                         </div>
-
+                      <PostDeleteModal :id-master=id></PostDeleteModal>
                     </div>
         </div>
 

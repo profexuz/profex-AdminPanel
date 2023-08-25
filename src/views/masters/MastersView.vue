@@ -7,6 +7,7 @@ import MasterViewComponent from "@/components/masters/MasterViewComponent.vue";
 import axios from '@/plugins/axios'
 import { useI18n } from 'vue-i18n';
 import MasterCreateModal from "@/components/masters/MasterCreateModal.vue";
+import { PaginationMetaData } from "@/Utils/PaginationUtils";
 
 
 
@@ -19,36 +20,42 @@ export default defineComponent({
         IconCreate
     },
     methods:{
-        async getDataAsync(){
+        async getDataAsync(page: number) {
             this.isLoaded = false;
-            var response = await axios.get<MastersViewModel[]>("/api/common/master");
-            this.isLoaded=true;
+            const response = await axios.get("/api/common/master?page=" + page);
+
+            const paginationJson = JSON.parse(response.headers['x-pagination']);
+            this.metaData = new PaginationMetaData();
+            this.metaData.currentPage = paginationJson.CurrentPage;
+            this.metaData.totalPages = paginationJson.TotalPages;
+            this.metaData.hasNext = paginationJson.HasNext;
+            this.metaData.hasPrevious = paginationJson.HasPrevious;
+
             this.mastersList = response.data;
+            this.isLoaded = true;
 
-            const paginationHeader = response.headers['x-pagination'];
-            console.log("header",response.headers);
-            const paginationInfo = JSON.parse(paginationHeader);
-            this.currentPage = paginationInfo.CurrentPage;
-            this.totalPages = paginationInfo.TotalPages;
 
-        },
+            console.error("Error while fetching data:");
+        }
         
     },
     data() {
         return {
-
+            metaData: new PaginationMetaData(),
             mastersList: [] as MastersViewModel[],
+            isLoaded: false as boolean,
+            page: 1 as number,
             defaultSkeletons: 6 as Number,
-            isLoaded: false as Boolean,
             currentPage: 1 as Number,
             totalPages: 1 as Number
         }
     },
     setup(){
         const { t } = useI18n();
+        return { t };
     },
     async mounted() {
-        await this.getDataAsync();
+        await this.getDataAsync(1);
     },
 });
 </script>
@@ -115,43 +122,37 @@ export default defineComponent({
         </template>
     </ul>
     <!--end:: Masters-->
-    <!-- start:: Pagination-->
-<div class="flex flex-col items-center ">
     <nav aria-label="Page navigation example">
-        <ul class="flex items-center -space-x-px h-10 text-base">
-            <li>
-                <button @click="loadPage(currentPage - 1)" :disabled="currentPage === 1" class="flex items-center justify-center px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+        <ul class="flex items-center -space-x-px h-8 text-sm">
+            <li v-show="metaData.hasPrevious == true">
+                <a href="#"
+                   class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Previous</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5 1 1 5l4 4" />
                     </svg>
-                </button>
+                </a>
             </li>
-            <li v-for="item in currentPageData" :key="item.id">
-                <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+
+            <li v-for="el in metaData.totalPages">
+                <button @click="getDataAsync(el)" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    {{ el }}</button>
             </li>
-<!--            <li>-->
-<!--                <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#" aria-current="page" class="z-10 flex items-center justify-center px-4 h-10 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>-->
-<!--            </li>-->
-            <li>
-                <button @click="loadPage(currentPage + 1)" :disabled="currentPage === totalPages" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+
+            <li v-show="metaData.hasNext == true">
+                <a href="#"
+                   class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Next</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 9 4-4-4-4" />
                     </svg>
-                </button>
+                </a>
             </li>
         </ul>
     </nav>
-</div>
     <!--    end:: Pagination-->
 </template>

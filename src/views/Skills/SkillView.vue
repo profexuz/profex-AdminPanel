@@ -11,6 +11,7 @@ import CategoryCreateModalComponent from "@/components/categories/CategoryCreate
 import SkillCreateModal from "@/components/skills/SkillCreateModal.vue";
 import {Dropdown, DropdownInterface, DropdownOptions} from "flowbite";
 import SkillCategorySelect from "@/components/skills/SkillCategorySelect.vue";
+import {useI18n} from "vue-i18n";
 
 export default defineComponent({
     components:
@@ -43,6 +44,10 @@ export default defineComponent({
     },
     async mounted(){
         await this.getDataAsync();
+    },
+    setup(){
+        const { t } = useI18n();
+        return { t };
     }
 
 })

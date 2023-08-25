@@ -22,5 +22,19 @@
     "password": "Password",
     "password2": "Password confirm",
     "next": "Next",
-    "code": "Write confirmation code"
+    "code": "Write confirmation code",
+    "region": "Region",
+    "district": "District",
+    "title": "Title",
+    "About": "About",
+    "Policy": "Policy",
+    "License": "License",
+    "Contact": "Contact",
+    "Posts": "Posts",
+    "AllRightsReserved": "© 2023 Profex All Rights Reserved.",
+    "date": "Date",
+    "action":"Action",
+    "selectCategory": "Выбрать Категорию"
+
+
 }

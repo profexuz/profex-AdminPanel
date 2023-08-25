@@ -2,11 +2,12 @@
 import { defineComponent} from 'vue';
 import { UserViewModel } from  '@/viewmodels/UsersViewModel'
 import IconCreate from '@/components/icons/interface/IconCreate.vue';
-import UserSkeletonComponent from "@/components/users/UserSkeletonComponent.vue";
+import UserSkeletonComponent from '@/components/users/UserSkeletonComponent.vue'
 import UserViewComponent from "@/components/users/UserViewComponent.vue";
+import UserCreateModal from "@/components/users/UserCreateModal.vue";
+import { PaginationMetaData } from "@/Utils/PaginationUtils";
 import axios from '@/plugins/axios'
 import { useI18n } from 'vue-i18n';
-import UserCreateModal from "@/components/users/UserCreateModal.vue";
 
 
 
@@ -19,11 +20,18 @@ export default defineComponent({
         IconCreate
     },
     methods:{
-        async getDataAsync(){
+        async getDataAsync(page: number){
             this.isLoaded = false;
-            var response = await axios.get<UserViewModel[]>("/api/common/user/get-all");
+            const response = await axios.get("/api/common/user/get-all?page="+page);
+            const paginationJson = JSON.parse(response.headers['x-pagination']);
+            this.metaData = new PaginationMetaData();
+            this.metaData.currentPage = paginationJson.CurrentPage;
+            this.metaData.totalPages = paginationJson.TotalPages;
+            this.metaData.hasNext = paginationJson.HasNext;
+            this.metaData.hasPrevious = paginationJson.HasPrevious;
+
             this.isLoaded=true;
-            this.mastersList = response.data;
+            this.userlist = response.data;
             console.log(response.data);
         },
 
@@ -31,16 +39,19 @@ export default defineComponent({
     data() {
         return {
 
-            mastersList: [] as MastersViewModel[],
-            defaultSkeletons: 6 as Number,
-            isLoaded: false as Boolean
+            userlist: [] as UserViewModel[],
+            isLoaded: false as Boolean,
+            metaData: new PaginationMetaData(),
+            page: 1 as number,
         }
     },
     setup(){
         const { t } = useI18n();
+        return { t }; // t o'zgaruvchisini qaytarish uchun
+
     },
     async mounted() {
-        await this.getDataAsync();
+        await this.getDataAsync(1);
     },
 });
 </script>
@@ -75,7 +86,7 @@ export default defineComponent({
         </ol>
         <!--end:: BreadCrumb-->
 
-    <UserCreateModal></UserCreateModal>
+        <UserCreateModal></UserCreateModal>
 
     </nav>
 
@@ -93,7 +104,7 @@ export default defineComponent({
 
     <!-- <div class="grid grid-cols-2 md:grid-cols-3 gap-4"> -->
     <ul class="grid grid-cols-4 md:grid-cols-4 gap-4" v-show="isLoaded==true">
-        <template v-for="element in mastersList">
+        <template v-for="element in userlist">
             <UserViewComponent
                 :firstName=element.firstName
                 :lastName=element.lastName
@@ -109,4 +120,43 @@ export default defineComponent({
     </ul>
     <!--end:: Masters-->
     <!-- </div> -->
+
+
+    <!-- start:: Pagination-->
+
+    <nav aria-label="Page navigation example">
+        <ul class="flex items-center -space-x-px h-8 text-sm">
+            <li v-show="metaData.hasPrevious == true">
+                <a href="#"
+                   class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Previous</span>
+                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5 1 1 5l4 4" />
+                    </svg>
+                </a>
+            </li>
+
+            <li v-for="el in metaData.totalPages">
+                <button @click="getDataAsync(el)" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    {{ el }}</button>
+            </li>
+
+            <li v-show="metaData.hasNext == true">
+                <a href="#"
+                   class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 9 4-4-4-4" />
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <!--    end:: Pagination-->
 </template>

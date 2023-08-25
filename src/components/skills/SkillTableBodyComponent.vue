@@ -35,6 +35,7 @@ export default defineComponent( {
         async getDataCategory(){
             var catresponse = await axios.get<CategoryViewModel[]>("/api/common/category");
             this.categoryList = catresponse.data;
+            console.log(this.categoryList)
         },
         async getDataChildAsync(myId:number)
         {
@@ -59,8 +60,8 @@ export default defineComponent( {
         }
     },
     async mounted(){
-        await this.getDataChildAsync(this.selectedId);
         await  this.getDataCategory();
+        await this.getDataChildAsync(this.selectedId);
     },
 
 
@@ -69,7 +70,9 @@ export default defineComponent( {
 <template>
 
     <div class="mb-3">
-        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Category</label>
+        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            {{$t('selectCategory')}}
+        </label>
         <select @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
             <option class="text-base" v-for="item in categoryList" :value="item.id">{{item.name}}</option>

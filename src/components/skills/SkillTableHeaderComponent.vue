@@ -3,16 +3,16 @@
             <thead class="text-l w-full shadow  text-gray-800 uppercase dark:text-gray-200">
             <tr class="w-full" >
                 <th scope="col" class="px-6  border-left-round py-3 bg-gray-200  dark:bg-gray-600">
-                    Name
+                    {{$t("title")}}
                 </th>
                 <th scope="col" class="px-6  py-3 bg-gray-200  dark:bg-gray-600">
-                    Description
+                    {{$t("description")}}
                 </th>
                 <th scope="col" class="px-6  py-3 bg-gray-200  dark:bg-gray-600">
-                    Date
+                    {{$t('date')}}
                 </th>
                 <th scope="col" class="px-6 border-right-round py-3 bg-gray-200  dark:bg-gray-600">
-                    Action
+                    {{$t('action')}}
                 </th>
             </tr>
             </thead>

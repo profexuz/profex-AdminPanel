@@ -22,6 +22,18 @@
     "password": "Maxfiy so'z",
     "password2": "Maxfiy so'zni tasdqilash",
     "next": "Keyingi",
-    "code": "Tasdiqlash raqamini kiriting"
+    "code": "Tasdiqlash raqamini kiriting",
+    "region": "Viloyat",
+    "district": "Tuman",
+    "title": "Nomi",
+    "About": "Haqida",
+    "Policy": "Maxfiylik siyosati",
+    "License": "Litsenziya",
+    "Contact": "Aloqa",
+    "Posts": "Postlar",
+    "AllRightsReserved":"© 2023 Profex Barcha huquqlar himoyalangan.",
+    "date": "Sana",
+    "action":"Xarakatlar",
+    "selectCategory": "Kategoriya tanlash"
 
 }
