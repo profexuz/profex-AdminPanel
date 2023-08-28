@@ -27,9 +27,12 @@
             },
             async confirmDelete() {
 
-                const response = await axios.delete("/api/user/post/1?postId="+this.idMaster);
+                const response = await axios.delete("/api/common/master/"+this.idMaster);
                 
-               
+               if(response.status===200){
+                   alert('Deleted')
+                   alert(this.idMaster)
+               }
                 console.log("Deleting the master...");
     
 

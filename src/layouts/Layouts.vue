@@ -7,17 +7,6 @@ import { RouterView } from "vue-router";
 import FlowBiteSetup from "../FlowbiteSetup.vue";
 
 import Cookies from 'js-cookie';
-import router from "@/router";
-
-const token = Cookies.get("access_token");
-
-if(token===undefined || token==="")
-{
-    router.push('auth/login');
-}
-else {
-    router.push('/dashboard')
-}
 
 </script>
 

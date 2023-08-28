@@ -24,7 +24,7 @@
             },
             async confirmDelete() {
 
-                const response = await axios.delete("/api/common/user/"+this.idUser);
+                const response = await axios.delete("/api/common/user/userId?postId="+this.idUser);
                 
                
                 console.log("Deleting the category...");
