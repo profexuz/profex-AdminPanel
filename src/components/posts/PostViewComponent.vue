@@ -38,8 +38,8 @@ export default defineComponent({
     data() {
         return{
             baseURL: "" as String,
-            createdAtString: "" as String,
-            updatedAtString: "" as String,
+            createdAtString: "" as string,
+            updatedAtString: "" as string,
             localId: 0  as Number,
             imageFullPath: "https://sun6-22.userapi.com/s/v1/ig2/GaqrqzMiGw_KKTSL9BRKqQz_gWkKRa970sMfeaPgF0ALKDbX0lXYakM-_AiJ9lYKcVqSR2YkytPiy3ei7MdaFLyK.jpg?size=2160x2160&quality=95&crop=0,0,2160,2160&ava=1" as String
             ,
