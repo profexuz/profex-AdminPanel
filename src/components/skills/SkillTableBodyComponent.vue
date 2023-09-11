@@ -40,10 +40,9 @@ export default defineComponent( {
         async getDataChildAsync(myId:number)
         {
 
-            this.Aurl = `/api/common/category/getall/by/categoryId?categoryId=${myId}`
+            this.Aurl = `/api/common/category/allSkillsBy/categoryId?categoryId=${myId}`
             var responce = await axios.get<SkillViewModel[]>(this.Aurl);
             this.SkillList = responce.data;
-            console.log(this.SkillList.pop())
         }
 
     },
