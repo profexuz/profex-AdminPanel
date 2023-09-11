@@ -33,7 +33,7 @@ export default defineComponent({
                 const formData = new FormData();
                 formData.append("Name", this.categoryName);
                 formData.append("Description", this.categoryDescription);
-            const responce = await axios.put("/api/common/category?categoryId="+this.idProp, formData);
+            const responce = await axios.put("/api/admin/category/"+this.idProp, formData);
             console.log(responce.status);
             if (responce.status == 200) {
                 location.reload();
