@@ -2,6 +2,7 @@
   "recommendations": [
     "vue.volar",
     "vue.vscode-typescript-vue-plugin",
-    "cweijan.vscode-office"
+    "cweijan.vscode-office",
+    "zhuangtongfa.material-theme"
   ]
 }

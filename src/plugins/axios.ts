@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 const instance = axios.create({
-    baseURL: "http://95.130.227.187:8080",
+    baseURL: "http://64.227.42.134:4040",
     headers:{
         ['Authorization'] : `Bearer ${Cookies.get("access_token")}`
     }
@@ -12,7 +12,7 @@ const instance = axios.create({
 instance.interceptors.response.use(
     response => response,
     error => {
-        if(error.response.status == 400)
+        if(error.response.status === 400)
         {
             return error.response;
         }
@@ -25,7 +25,7 @@ instance.interceptors.response.use(
             // You can use Vue Router to navigate
             console.log("404 error handled")
         }
-        else if (error.response.status == 500){
+        else if (error.response.status === 500){
             console.log("500 error handled");
         }
         else {
