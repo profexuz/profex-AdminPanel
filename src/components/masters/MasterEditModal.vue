@@ -46,7 +46,7 @@ export default defineComponent({
             if (this.selectedImage) {
                 formData.append("ImagePath", this.selectedImage);
             }
-            const responce = await axios.put("/api/common/master/" + this.editId, formData, {
+            const responce = await axios.put("/api/admin/master/" + this.editId, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
