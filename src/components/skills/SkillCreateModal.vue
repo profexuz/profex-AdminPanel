@@ -33,8 +33,9 @@ export default defineComponent({
             formData.append("CategoryId", this.selectedId.toString());
             formData.append("Description", this.description);
             formData.append("Title", this.name);
-
-            const responce = await axios.post("/api/common/skills/skill", formData);
+            console.log(this.selectedId.toString());
+            
+            const responce = await axios.post("/api/admin/skill", formData);
 
             if (responce.status == 200) {
                 // this.$router.push('/categories');
@@ -50,7 +51,7 @@ export default defineComponent({
         {
             var response = await axios.get<CategoryViewModel[]>("/api/common/category");
             this.categoryList = response.data;
-            console.log(this.categoryList.pop())
+            // console.log(this.categoryList.pop())
         }
     },
 

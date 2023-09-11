@@ -39,7 +39,7 @@ export default defineComponent({
                 console.log(this.skillName)
                 console.log(this.CategoryId)
                 console.log(this.idProp)
-                const responce = await axios.put("/api/common/skills/skill/(id)?id="+this.idProp, formData);
+                const responce = await axios.put("/api/admin/skill/"+this.idProp, formData);
 
                 if (responce.status == 200) {
                     location.reload();
