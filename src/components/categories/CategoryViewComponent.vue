@@ -7,6 +7,7 @@ import { defineComponent } from "vue";
 import FlowbiteSetup from "@/FlowbiteSetup.vue";
 import CategoryEditComponent from "./CategoryEditComponent.vue";
 import CategoryDeleteComponents from "./CategoryDeleteComponents.vue";
+import router from "@/router";
 
 
 export default defineComponent({
@@ -37,6 +38,14 @@ export default defineComponent({
             this.createdAtString = formatDate(this.createdAt!);
             this.updatedAtString = formatDate(this.updatedAt!);
         },
+        pushToSkills() {
+  router.push({
+    name: "skillsDetails", // Replace with the actual name of your destination route
+    params: {
+      id: this.id,
+    }})
+},
+
 
     },
     mounted() {
@@ -53,12 +62,12 @@ export default defineComponent({
             <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ name }}</h5>
             <p class="font-normal text-gray-700 dark:text-gray-400">{{ description }}</p>
             <div class="w-44">
-                <a href="#" class="inline-flex text-gray-700 w-full items-center justify-center mt-1 text-l font-medium   rounded   hover:text-gray-900 bg-gray-100 dark:text-gray-200 dark:bg-gray-600 px-3 dark:hover:bg-gray-700 dark:hover:text-white">
+                <button @click="pushToSkills" class="inline-flex text-gray-700 w-full items-center justify-center mt-1 text-l font-medium   rounded   hover:text-gray-900 bg-gray-100 dark:text-gray-200 dark:bg-gray-600 px-3 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="w-full">Skills</span>
                     <svg class="w-4 h-4 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                     </svg>
-                </a>
+                </button>
             </div>
             <div class="flex flex-wrap items-center mt-2 mb-2">
                 <IconCalendar></IconCalendar>
