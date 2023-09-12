@@ -28,7 +28,7 @@
     border-radius:  5px 0 0 0 ;
 }
 </style>
-<script>
+<script lang="ts">
 export default {
     name: "SkillTableHeaderComponent"
 }

@@ -9,7 +9,7 @@ export  class PostViewModelAA{
     longitude:Number=0;
     latidute:Number=0;
     phoneNumber: string="";
-    // imagePath: string[]=[];
+    imagePath: string[] = [];
     firstName: string="";
     lastName: string="";
     categoryName: string="";

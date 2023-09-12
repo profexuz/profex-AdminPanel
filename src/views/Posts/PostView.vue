@@ -15,8 +15,8 @@ export default defineComponent ({
 
             var response = await axios.get<PostViewModelAA[]>("/api/common/post?page="+page);
 
-            console.log(response.data);
             this.postList = response.data;
+            console.log(this.postList[0].imagePath);
             const paginationJson = JSON.parse(response.headers['x-pagination']);
             this.metaData = new PaginationMetaData();
             this.metaData.currentPage = paginationJson.CurrentPage;
@@ -62,9 +62,9 @@ export default defineComponent ({
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="m1 9 4-4-4-4" />
                     </svg>
-                    <a
-                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{
-                            $t('Posts') }}</a>
+                    <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                        {{$t('Posts') }}
+                    </a>
                 </div>
             </li>
         </ol>
@@ -88,20 +88,14 @@ export default defineComponent ({
                       :longitude= item.longitude
                       :latidute= item.latidute
                       :phoneNumber= item.phoneNumber
-                      :imagePath= item.imgaePath
-                  :firstName= item.firstName
-                  :lastName= item.lastName
-                  :categoryName= item.categoryName
-                  :skillTitle= item.skillTitle
-                  :createdAt = item.createdAt
-                  :updatedAt: = item.updatedAt
-                  :id= item.id
-
-
-
-
-
-
+                      :imagePath= item.imagePath
+                      :firstName= item.firstName
+                      :lastName= item.lastName
+                      :categoryName= item.categoryName
+                      :skillTitle= item.skillTitle
+                      :createdAt = item.createdAt
+                      :updatedAt: = item.updatedAt
+                      :id= item.id
                   >
             </PostViewComponent>
               </template>
