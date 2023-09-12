@@ -55,7 +55,7 @@ export default defineComponent({
 <template >
     <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="image-container px-2 pt-2">
-            <img class="image-square rounded-lg" v-bind:src = "imageFullPath"  alt="" />
+            <img v-bind:src= "imageFullPath" class="image-square rounded-lg"   alt="" />
         </div>
         <div class="px-2 pt-1 pb-2">
             <h5 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} <br> {{lastName}}</h5>

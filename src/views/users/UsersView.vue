@@ -29,9 +29,8 @@ export default defineComponent({
             this.metaData.totalPages = paginationJson.TotalPages;
             this.metaData.hasNext = paginationJson.HasNext;
             this.metaData.hasPrevious = paginationJson.HasPrevious;
-
-            this.isLoaded=true;
             this.userlist = response.data;
+            this.isLoaded=true;
             console.log(response.data);
         },
 
@@ -43,7 +42,6 @@ async searchDataAsync(){
     try {
 
         this.isLoaded = false;
-
         const response = await axios.get("/api/common/user/search?search="+ this.searchString);
         const paginationJson = JSON.parse(response.headers['x-pagination']);
         this.metaData = new PaginationMetaData();
@@ -139,8 +137,7 @@ async searchDataAsync(){
     <!--begin:: Categories Skeletons-->
     <ul class="grid grid-cols-3 md:grid-cols-3 gap-2" v-show="isLoaded==false">
         <template  v-for="element in defaultSkeletons">
-            <UserSkeletonComponent
-            >
+            <UserSkeletonComponent>
             </UserSkeletonComponent>
         </template>
     </ul>
@@ -150,7 +147,7 @@ async searchDataAsync(){
 
     <!-- <div class="grid grid-cols-2 md:grid-cols-3 gap-4"> -->
     <ul class="grid grid-cols-4 md:grid-cols-4 gap-4" v-show="isLoaded==true">
-        <template v-for="element in userlist">
+        <template v-for="element in userlist" :key="userlist.id">
             <UserViewComponent
                 :firstName=element.firstName
                 :lastName=element.lastName
