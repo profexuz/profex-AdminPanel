@@ -31,6 +31,7 @@ export default defineComponent({
             this.metaData.hasNext = paginationJson.HasNext;
             this.metaData.hasPrevious = paginationJson.HasPrevious;
 
+            this.mastersList = [];
             this.mastersList = response.data;
             this.isLoaded = true;
 
@@ -62,8 +63,7 @@ export default defineComponent({
             finally{
                 this.isLoaded = true;
             }
-        }
-        
+        },
     },
     data() {
         return {
@@ -71,9 +71,9 @@ export default defineComponent({
             mastersList: [] as MastersViewModel[],
             isLoaded: false as boolean,
             page: 1 as number,
-            defaultSkeletons: 6 as Number,
-            currentPage: 1 as Number,
-            totalPages: 1 as Number,
+            defaultSkeletons: 6 as number,
+            currentPage: 1 as number,
+            totalPages: 1 as number,
             searchString: ""
         }
     },
@@ -84,6 +84,7 @@ export default defineComponent({
     async mounted() {
         await this.getDataAsync(1);
     },
+   
 });
 </script>
 
@@ -132,7 +133,7 @@ export default defineComponent({
     <MasterCreateModal></MasterCreateModal>
 
     </nav>
-
+    
     <!--begin:: Masters Skeletons-->
     <ul class="grid grid-cols-3 md:grid-cols-3 gap-5" v-show="isLoaded==false">
         <template  v-for="element in defaultSkeletons">
@@ -156,7 +157,8 @@ export default defineComponent({
                 :createdAt=element.createdAt
                 :updatedAt=element.updatedAt
                 :id=element.id
-                class="mt-1 mb-3">
+                class="mt-1 mb-3"
+                >
             </MasterViewComponent>
         </template>
     </ul>
@@ -165,7 +167,7 @@ export default defineComponent({
     <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
             <li v-show="metaData.hasPrevious == true">
-                <a href="#"
+                <button @click="getDataAsync(metaData.currentPage - 1)"
                    class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Previous</span>
                     <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -173,7 +175,7 @@ export default defineComponent({
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M5 1 1 5l4 4" />
                     </svg>
-                </a>
+                </button>
             </li>
 
             <li v-for="el in metaData.totalPages">
@@ -181,8 +183,8 @@ export default defineComponent({
                     {{ el }}</button>
             </li>
 
-            <li v-show="metaData.hasNext == true">
-                <a href="#"
+            <li  v-show="metaData.hasNext == true">
+                    <button  @click="getDataAsync(metaData.currentPage + 1)"
                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                     <span class="sr-only">Next</span>
                     <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -190,7 +192,8 @@ export default defineComponent({
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="m1 9 4-4-4-4" />
                     </svg>
-                </a>
+                    </button>
+                
             </li>
         </ul>
     </nav>

@@ -28,16 +28,18 @@ export default defineComponent({
         isFree:Boolean,
         createdAt: Date,
         updatedAt: Date
-
+    },
+    watch: {
+        id: 'load',
     },
     data() {
         return{
-            baseURL: "" as String,
-            imageFullPath: "" as String,
-            phoneNumberS: "" as String,
-            name: "" as String,
-            createdAtS: "" as String,
-            updatedAtS: "" as String
+            baseURL: "" as string,
+            imageFullPath: "" as string,
+            phoneNumberS: "" as string,
+            name: "" as string,
+            createdAtS: "" as string,
+            updatedAtS: "" as string
         }
     },
     methods: {
@@ -48,7 +50,7 @@ export default defineComponent({
             this.name = this.firstName!;
             this.createdAtS = formatDate(this.createdAt!);
             this.updatedAtS = formatDate(this.updatedAt!);
-
+            console.log(this.imageFullPath)
         },
     },
     mounted() {
@@ -59,7 +61,7 @@ export default defineComponent({
 <template >
     <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="image-container px-2 pt-2">
-            <img class="image-square rounded-lg" v-bind:src="imageFullPath"  alt="" />
+            <img class="image-square rounded-lg" :src="imageFullPath" :key="id"  alt="" />
             <img v-if="isFree" class="p-1 status-badge" src="@/assets/free.png"  alt="" />
             <img v-else class="p-1 status-badge" src="@/assets/busy.png"  alt="" />
         </div>
