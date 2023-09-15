@@ -24,7 +24,7 @@ export default defineComponent({
         },
         async confirmDelete() {
 
-            const response = await axios.delete("/api/common/skills/skill/"+this.idDel);
+            const response = await axios.delete("/api/admin/skill/"+this.idDel);
 
 
             console.log("Deleting the Skill...");

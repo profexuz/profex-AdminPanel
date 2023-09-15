@@ -22,6 +22,7 @@ const router = createRouter({
         },
         {
           path: "masters",
+          // name:"masters",
           component: ()=> import("../views/masters/MastersView.vue")
         },
         {
@@ -29,8 +30,12 @@ const router = createRouter({
           component: ()=> import("../views/users/UsersView.vue")
         },
         {
-          path: 'skills',
-          component: ()=> import("../views/skills/SkillView.vue")
+          // path: 'skills',
+          // component: ()=> import("../views/skills/SkillView.vue")
+          path: '/skills/:id',
+          name: 'skillsDetails',
+          component: () => import('../views/skills/SkillView.vue'), // Replace with your actual component
+          props: true // This allows route parameters to be passed as props to the component
         },
         {
           path: 'posts',

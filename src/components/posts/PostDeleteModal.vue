@@ -27,7 +27,7 @@ export default defineComponent({
         },
         async confirmDelete() {
 
-            const response = await axios.delete("/api/user/post/"+this.idMaster);
+            const response = await axios.delete("/api/admin/user/post/"+this.idMaster);
 
 
             console.log("Deleting the master...");

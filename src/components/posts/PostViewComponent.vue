@@ -6,14 +6,17 @@ import axios from '@/plugins/axios'
 import { defineComponent } from "vue";
 import FlowbiteSetup from "@/FlowbiteSetup.vue";
 import PostDeleteModal from "@/components/posts/PostDeleteModal.vue";
-
+import PostImages from "./PostImages.vue";
+import type PostImagesVue from "./PostImages.vue";
 
 export default defineComponent({
     components:{
-        PostDeleteModal,
-        FlowbiteSetup,
-        IconCalendar, IconCalendarEdit
-    },
+    PostDeleteModal,
+    FlowbiteSetup,
+    IconCalendar,
+    IconCalendarEdit,
+    PostImages,
+},
     props: {
 
         categoryId: Number ,
@@ -26,11 +29,11 @@ export default defineComponent({
         longitude:Number,
         latidute:Number,
         phoneNumber: String,
-        imagePath: String,
+        imagePath: String<[]>,
         firstName: String,
         lastName: String,
         categoryName: String,
-        skillTitle: String<[]>,
+        // skillTitle: String<[]>,
         createdAt: Date ,
         updatedAt: Date ,
         id: Number
@@ -38,11 +41,10 @@ export default defineComponent({
     data() {
         return{
             baseURL: "" as String,
-            createdAtString: "" as String,
-            updatedAtString: "" as String,
+            createdAtString: "" as string,
+            updatedAtString: "" as string,
             localId: 0  as Number,
-            imageFullPath: "https://sun6-22.userapi.com/s/v1/ig2/GaqrqzMiGw_KKTSL9BRKqQz_gWkKRa970sMfeaPgF0ALKDbX0lXYakM-_AiJ9lYKcVqSR2YkytPiy3ei7MdaFLyK.jpg?size=2160x2160&quality=95&crop=0,0,2160,2160&ava=1" as String
-            ,
+            imageFullPath: "https://sun6-22.userapi.com/s/v1/ig2/GaqrqzMiGw_KKTSL9BRKqQz_gWkKRa970sMfeaPgF0ALKDbX0lXYakM-_AiJ9lYKcVqSR2YkytPiy3ei7MdaFLyK.jpg?size=2160x2160&quality=95&crop=0,0,2160,2160&ava=1" as String,
 
         }
     },
@@ -50,7 +52,8 @@ export default defineComponent({
         load(){
             this.baseURL = axios.defaults.baseURL!;
 
-
+            console.log(this.imagePath);
+            
             // this.imageFullPath = `${this.baseURL}/${this.imagePath.split(',')[0]}`;
             this.createdAtString = formatDate(this.createdAt!);
             this.updatedAtString = formatDate(this.updatedAt!);
@@ -68,10 +71,13 @@ export default defineComponent({
 
 <template>
         <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <div class="image-container px-2 ">
+                        <PostImages 
+                            :imagePath = imagePath>
+                        </PostImages>
+                    <!-- <div class="image-container px-2 ">
                         <h5 class="text-2xl pt-1 pb-1 font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} {{lastName}}</h5>
                         <img class="image-square rounded-lg" v-bind:src="imageFullPath"  alt="" />
-                    </div>
+                    </div> -->
                     <div class="px-2 pt-1 pb-2">
                             <h5 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{$t('title')}}: {{title}} </h5>
                         <p class=" font-normal text-gray-700 dark:text-gray-400">{{$t('description')}}: {{description}}</p>

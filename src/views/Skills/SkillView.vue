@@ -9,7 +9,6 @@ import axios from "@/plugins/axios";
 import type {CategoryViewModel} from "@/viewmodels/CategoryViewModels";
 import CategoryCreateModalComponent from "@/components/categories/CategoryCreateModalComponent.vue";
 import SkillCreateModal from "@/components/skills/SkillCreateModal.vue";
-import {Dropdown, DropdownInterface, DropdownOptions} from "flowbite";
 import SkillCategorySelect from "@/components/skills/SkillCategorySelect.vue";
 import {useI18n} from "vue-i18n";
 
@@ -23,6 +22,10 @@ export default defineComponent({
         SkillTableHeaderComponent,
         SkillCategoryHeaderTableComponent,
         SkillCategoryBodyComponent
+    },
+    props: {
+        Id : Number,
+        Name: String
     },
     methods:
     {

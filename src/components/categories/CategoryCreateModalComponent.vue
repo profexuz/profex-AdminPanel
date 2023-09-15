@@ -10,7 +10,7 @@ export default defineComponent({
     data() {
         return {
             showModal:false ,
-            name: "" as String,
+            name: "" as string,
             description: "" as string,
             createError: false as boolean
         };
@@ -26,7 +26,9 @@ export default defineComponent({
             const formData = new FormData();
             formData.append("Name", this.name);
             formData.append("Description", this.description);
-            const responce = await axios.post("/api/common/category", formData);
+            console.log(this.name + " " + this.description);
+            
+            const responce = await axios.post("/api/admin/category", formData);
 
             if (responce.status == 200) {
                 // this.$router.push('/categories');

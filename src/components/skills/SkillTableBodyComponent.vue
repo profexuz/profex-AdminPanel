@@ -27,7 +27,7 @@ export default defineComponent( {
 
     },
     props: {
-        cId : Number,
+        id : Number,
         cName: String
     },
     methods:{
@@ -39,11 +39,10 @@ export default defineComponent( {
         },
         async getDataChildAsync(myId:number)
         {
-
-            this.Aurl = `/api/common/category/getall/by/categoryId?categoryId=${myId}`
+            console.log(myId);
+            this.Aurl = `/api/common/category/allSkillsBy/categoryId?categoryId=${myId}`
             var responce = await axios.get<SkillViewModel[]>(this.Aurl);
             this.SkillList = responce.data;
-            console.log(this.SkillList.pop())
         }
 
     },
@@ -61,7 +60,7 @@ export default defineComponent( {
     },
     async mounted(){
         await  this.getDataCategory();
-        await this.getDataChildAsync(this.selectedId);
+        await this.getDataChildAsync(this.$route.params.id);
     },
 
 
