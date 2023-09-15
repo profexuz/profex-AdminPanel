@@ -43,12 +43,16 @@ async searchDataAsync(){
 
         this.isLoaded = false;
         const response = await axios.get("/api/common/user/search?search="+ this.searchString);
+
         // const paginationJson = JSON.parse(response.headers['x-pagination']);
         // this.metaData = new PaginationMetaData();
         // this.metaData.currentPage = paginationJson.CurrentPage;
         // this.metaData.totalPages = paginationJson.TotalPages;
         // this.metaData.hasNext = paginationJson.HasNext;
         // this.metaData.hasPrevious = paginationJson.HasPrevious;
+
+       
+
         this.userlist = response.data;
     } 
     catch(error) {
@@ -112,6 +116,7 @@ async searchDataAsync(){
         <!--end:: BreadCrumb-->
 
     <form class="flex mx-5 justify-end pb-5 w-full" >
+
         <div class="flex relative right-0 w-2/5">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +128,6 @@ async searchDataAsync(){
           <input v-model="searchString" @input="searchDataAsync" type="search" id="default-search" class="flex end w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name..."/>
         </div>
     </form>
-
         <UserCreateModal></UserCreateModal>
 
     </nav>

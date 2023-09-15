@@ -6,7 +6,7 @@ import IconUsers from "../icons/IconUsers.vue";
 import IconSettings from "../icons/IconSettings.vue";
 import IconSkills from "@/components/icons/IconSkills.vue";
 import { useI18n } from 'vue-i18n';
-import IconPosts from "@/components/icons/IconPosts.vue";
+import IconPosts from "../icons/IconPosts.vue";
 const { t } = useI18n();
 
 </script>
@@ -50,7 +50,8 @@ const { t } = useI18n();
             </RouterLink>
          </li>
          <li>
-            <RouterLink to="/skills/-1">
+
+            <RouterLink to="/skills/0">
                <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <IconSkills></IconSkills>
                   <span class="flex-1 ml-3 whitespace-nowrap">{{ $t("skills") }}</span>
