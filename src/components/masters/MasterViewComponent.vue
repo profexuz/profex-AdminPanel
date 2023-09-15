@@ -30,6 +30,9 @@ export default defineComponent({
         updatedAt: Date
 
     },
+    watch: {
+        id: 'load',
+    },
     data() {
         return{
             baseURL: "" as String,
@@ -40,6 +43,7 @@ export default defineComponent({
             updatedAtS: "" as String
         }
     },
+    
     methods: {
         load(){
             this.baseURL = axios.defaults.baseURL!;
