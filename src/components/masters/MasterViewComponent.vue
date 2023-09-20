@@ -71,6 +71,9 @@
       createdAt: Date,
       updatedAt: Date,
     },
+    watch: {
+        id: 'load',
+    },
     data() {
       return {
         baseURL: "" as String,
@@ -84,6 +87,7 @@
     watch:{
         id: "load"
     },
+    
     methods: {
       load() {
         this.baseURL = axios.defaults.baseURL!;
