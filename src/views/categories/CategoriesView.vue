@@ -6,7 +6,6 @@ import CategorySkeletonComponent from "@/components/categories/CategorySkeletonC
 import CategoryViewComponent from "@/components/categories/CategoryViewComponent.vue";
 import axios from '@/plugins/axios'
 import { useI18n } from 'vue-i18n';
-import {getToken} from "@/helpers/TokenHelper";
 import {getCookie} from "@/helpers/CookieHelper";
 
 

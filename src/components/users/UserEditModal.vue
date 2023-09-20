@@ -53,7 +53,7 @@ export default defineComponent({
             });
 
             if (responce.status == 200) {
-                location.reload();
+                this.$router.go;
                 this.closeModal();
             }
         }

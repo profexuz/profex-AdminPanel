@@ -33,7 +33,7 @@ export default defineComponent({
             console.log("Deleting the master...");
             if (response.status==200)
             {
-                alert('Delete Successfully')
+                // alert('Delete Successfully')
             }
 
             this.closeDeleteModal();

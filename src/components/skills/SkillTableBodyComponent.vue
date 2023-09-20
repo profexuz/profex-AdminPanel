@@ -39,9 +39,13 @@ export default defineComponent( {
         },
         async getDataChildAsync(myId:number)
         {
-            console.log(myId);
-            this.Aurl = `/api/common/category/allSkillsBy/categoryId?categoryId=${myId}`
-            var responce = await axios.get<SkillViewModel[]>(this.Aurl);
+            
+            this.$router.push({
+              name: "skillsDetails", // Replace with the actual name of your destination route
+              params: {
+                id: myId,
+              }})
+            var responce = await axios.get<SkillViewModel[]>(`/api/common/category/allSkillsBy/categoryId?categoryId=${myId}`);
             this.SkillList = responce.data;
         }
 
@@ -54,7 +58,7 @@ export default defineComponent( {
             createdAtString: "" as String,
             updatedAtString: "" as String,
             Aurl:"" as String,
-            selectedId : 0,
+            selectedId : this.$route.params.id,
             categoryList: [] as CategoryViewModel[]
         }
     },
@@ -72,7 +76,7 @@ export default defineComponent( {
         <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{$t('selectCategory')}}
         </label>
-        <select @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select  @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
             <option class="text-base" v-for="item in categoryList" :value="item.id">{{item.name}}</option>
 
@@ -123,6 +127,3 @@ export default defineComponent( {
 
 
 
-<style scoped>
-
-</style>
