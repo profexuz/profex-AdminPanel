@@ -2,9 +2,12 @@
 import { defineComponent } from "vue";
 import IconEdit from "@/components/icons/interface/IconEdit.vue";
 import axios from '@/plugins/axios';
+import LoadingCompanent from "../LoadingCompanent.vue"
+import {CategoryViewModel} from "@/viewmodels/CategoryViewModels";
 export default defineComponent({
     components: {
-        IconEdit
+        IconEdit,
+        LoadingCompanent
     },
     props: {
         nameProp:String,
@@ -17,36 +20,68 @@ export default defineComponent({
             showModal: false,
             Name: this.nameProp,
             Description: "",
-            skillName:""
+            skillName:"",
+            categoryList: [] as CategoryViewModel[],
+            selectedId : 0,
+            errorModal: false,
+            loading: true
         };
+    },
+    watch:{
+        selectedId: 'load'
     },
     methods:
         {
+            load(){
+                this.selectedId = this.CategoryId!
+            },
             openModal() {
                 this.skillName = this.nameProp!;
                 this.Description = this.descriptionProp!;
                 this.showModal = true;
+                this.errorModal = false
             },
             closeModal() {
                 this.showModal = false;
+                this.errorModal = false;
+            },
+            closeError(){
+                this.errorModal = false;
             },
             async submitForm()
             {
-                const formData = new FormData();
-                formData.append("categoryId", `${this.CategoryId}`);
-                formData.append("Description", this.Description);
-                formData.append("Title", this.skillName);
-                console.log(this.skillName)
-                console.log(this.CategoryId)
-                console.log(this.idProp)
-                const responce = await axios.put("/api/admin/skill/"+this.idProp, formData);
+                try {
+                    this.loading =false
+                    const formData = new FormData();
+                    formData.append("categoryId", this.selectedId?.toString()!);
+                    formData.append("Description", this.Description);
+                    formData.append("Title", this.skillName);
+                    const responce = await axios.put("/api/admin/skills/"+this.idProp, formData);
 
-                if (responce.status == 200) {
-                    location.reload();
-                    this.closeModal();
+                    if (responce.status == 200) {
+                        location.reload();
+                        this.closeModal();
+                    }
+                    else{
+                        this.loading =true
+                        this.errorModal = true
+                    }
+                } catch {
+                    this.loading =true
+                    this.errorModal = true
                 }
+                
+            },
+            async getDataAsync()
+            {
+                var response = await axios.get<CategoryViewModel[]>("/api/common/categories");
+                this.categoryList = response.data;
             }
         },
+        async mounted(){
+            this.load()
+            await this.getDataAsync();
+        }
 });
 </script>
 
@@ -63,6 +98,31 @@ export default defineComponent({
     <div v-if="showModal"
          class="fixed top-0 left-0 right-0 z-50 w-full h-screen flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative w-full max-w-md max-h-full">
+
+            <div v-if="errorModal" id="alert-2" 
+                    class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div class="ml-3 text-sm font-medium">
+                            {{ $t('errorUpdate') }}
+                    </div>
+                    <button type="button" @click="closeError"
+                        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                        data-dismiss-target="#alert-2" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button @click="closeModal"
@@ -77,12 +137,17 @@ export default defineComponent({
                 </button>
                 <div class="px-6 py-6 lg:px-8">
                     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                       Skill Edit </h3>
+                       {{ $t('skills')}}  {{ $t('edit') }}</h3>
                     <form @submit.prevent="submitForm" class="space-y-6" action="#">
+
+                    <select v-model="selectedId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option v-for="item in categoryList" :value="item.id">{{item.name}}</option>
+                    </select>
+
                         <!--Category Name Edit Start-->
                         <div>
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Name
+                                {{ $t('fName') }}
                             </label>
                             <input v-model="skillName" type="text" name="name" id="name"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -94,7 +159,7 @@ export default defineComponent({
                         <div>
                             <label for="description"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Description</label>
+                                {{ $t('description') }}</label>
                             <textarea v-model="Description" name="description" id="description"
                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                       required>
@@ -102,9 +167,13 @@ export default defineComponent({
                         </div>
                         <!--Edit Description End-->
                         <div class="m-5">
-                            <button @click="submitForm"  type="submit"
+                            <button v-if="loading" @click="submitForm"  type="submit"
                                     class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
-                                Update
+                                {{$t("edit")}}
+                            </button>
+                            <button v-else @click="submitForm"  type="submit"
+                                    class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-500 dark:hover:bg-yellow-600 dark:focus:ring-yellow    -800">
+                                    <LoadingCompanent></LoadingCompanent>
                             </button>
                         </div>
 

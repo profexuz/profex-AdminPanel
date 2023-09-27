@@ -1,33 +1,35 @@
 <script lang="ts">
-import {defineComponent} from "vue";
-import type {CategoryViewModel} from "@/viewmodels/CategoryViewModels";
+import { defineComponent } from "vue";
+import type { CategoryViewModel } from "@/viewmodels/CategoryViewModels";
 import SkillTableBodyComponent from "@/components/skills/SkillTableBodyComponent.vue";
 import SkillTableHeaderComponent from "@/components/skills/SkillTableHeaderComponent.vue";
 import axios from "@/plugins/axios";
 
 export default defineComponent({
-    components: {SkillTableHeaderComponent, SkillTableBodyComponent},
-    data(){
-        return{
-            selectedId : 0,
-            categoryList: [] as CategoryViewModel[]
-        }
+  components: { SkillTableHeaderComponent, SkillTableBodyComponent },
+  data() {
+    return {
+      selectedId: 0,
+      categoryList: [] as CategoryViewModel[],
+    };
+  },
+  watch: {
+    selectedId: "getDataAsync", // Watch for changes in selectedId and call getDataAsync
+  },
+  methods: {
+    async getDataAsync() {
+      var response = await axios.get<CategoryViewModel[]>(
+        "/api/common/category"
+      );
+      this.categoryList = response.data;
     },
-    methods:{
-        async getDataAsync()
-        {
-            var response = await axios.get<CategoryViewModel[]>("/api/common/category");
-            this.categoryList = response.data;
-            console.log(this.categoryList.pop())
-        }
-    },
-    async mounted() {
-        await this.getDataAsync();
-
-    }
-
-})
+  },
+  async mounted() {
+    await this.getDataAsync();
+  },
+});
 </script>
+
 <template>
     <div class="mb-3">
 

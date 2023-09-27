@@ -35,5 +35,18 @@
     "date": "Sana",
     "action":"Xarakatlar",
     "selectCategory": "Kategoriya tanlash",
-    "search": "Qidiruv"
+    "search": "Qidiruv",
+    "latest": "Oxrigi foydalanuvchilar",
+    "view": "Barchasini ko'rish",
+    "total": "Jami",
+    "titalMaster": "Bu yerda siz hamma masterlarni ko'rishingiz va sozlashingiz mumkin.",
+    "titalUsers": "Bu yerda siz hamma foydalanuvchilarni ko'rishingiz va sozlashingiz mumkin.",
+    "fullname": "To'liq ism",
+    "createAt": "Sana yaratish",
+    "exit": "Chiqish",
+    "errorCreate": "Yaratib bo'lmadi",
+    "errorUpdate": "Yangilab bo'lmadi",
+    "errorDelete": "O'chirib bo'lmadi",
+    "exitNumber": "Bu raqam ro'yxatdan o'tgan",
+    "hasnumber": "Iltimos, raqamingizni to'g'ri kiriting"
 }

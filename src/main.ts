@@ -8,7 +8,7 @@ import router from './router'
 import axios from "@/plugins/axios";
 
 
-
+// import './script.js'
 import './index.css'
 import i18n from './locales/i18n'
 

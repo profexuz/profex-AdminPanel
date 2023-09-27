@@ -35,6 +35,18 @@
     "date": "Date",
     "action":"Action",
     "selectCategory": "Select Category",
-    "search": "Search"
-
+    "search": "Search",
+    "latest": "Lastest users",
+    "view": "View all",
+    "total": "Total",
+    "titalMaster": "Here you can see all masters and customize them.",
+    "titalUsers":"Here you can see all users and customize them.",
+    "fullname": "Full Name",
+    "createAt": "Create Date",
+    "exit": "Sign out",
+    "errorCreate": "Could not be created",
+    "errorUpdate": "Could not be updated",
+    "errorDelete": "Could not be deleted",
+    "exitNumber": "This number is registered",
+    "hasnumber": "Please enter your number correctly"
 }

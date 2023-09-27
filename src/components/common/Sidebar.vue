@@ -50,7 +50,7 @@ const { t } = useI18n();
             </RouterLink>
          </li>
          <li>
-            <RouterLink to="/skills/ ">
+            <RouterLink to="/skills">
                <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <IconSkills></IconSkills>
                   <span class="flex-1 ml-3 whitespace-nowrap">{{ $t("skills") }}</span>

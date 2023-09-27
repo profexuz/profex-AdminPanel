@@ -1,8 +1,46 @@
-<script setup lang="ts">
+<script lang="ts">
   import ThemeSwicher from './ThemeSwicher.vue';
   import LanguageSwitcher from './LanguageSwitcher.vue';
+  import { defineComponent } from "vue";
+  import Cookies from 'js-cookie';
+  import jwtDecode from 'jwt-decode';
+  import FlowbiteSetup from '@/FlowbiteSetup.vue';
+  export default defineComponent({
+    components:{
+      LanguageSwitcher,
+      ThemeSwicher,
+      FlowbiteSetup
+    },
+    data(){
+      return{
+        phone : "",
+        firstName: "",
+        lastName: ""
+      }
+    },
+    watch: { 
+      id:"load"
+    },
+    methods: {
+        load() {
+            const token = Cookies.get('access_token');
+            const payload = jwtDecode(token);
+            this.phone = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"]
+            this.firstName = payload['FirstName']
+            this.lastName = payload['LastName']
+        },
+        exit(){
+            Cookies.remove('access_token')
+        }
+    },
+    mounted(){
+      this.load()
+    }
+  })
+  
 </script>
 <template>  
+<FlowbiteSetup></FlowbiteSetup>
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
@@ -22,33 +60,26 @@
         <LanguageSwitcher></LanguageSwitcher>
         <ThemeSwicher></ThemeSwicher>
           <div class="flex items-center ml-3">
-            <div>
+            <div class="relative">
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                <span class="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" aria-expanded="false" data-dropdown-toggle="dropdown-user" alt="profile image">
               </button>
             </div>
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                  Neil Sims
+                  {{ firstName }} {{ lastName }}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  neil.sims@flowbite.com
+                  {{ phone }}
                 </p>
               </div>
               <ul class="py-1" role="none">
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                  <RouterLink to="/">
+                    <a @click="exit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">{{ $t('exit') }}</a>
+                  </RouterLink>
                 </li>
               </ul>
             </div>
@@ -59,10 +90,5 @@
 </nav>
 </template>
 
-<style>
 
-</style>
 
-<script setup lang="ts">
-
-</script>

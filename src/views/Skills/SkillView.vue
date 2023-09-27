@@ -2,7 +2,7 @@
 
 import {defineComponent} from "vue";
 import SkillCategoryBodyComponent from "@/components/skills/SkillCategoryBodyComponent.vue";
-import SkillCategoryHeaderTableComponent from "@/components/skills/SkillCategoryHeaderTableComponent.vue";
+import SkillCategoryHeaderTableComponent from "@/components/skills/SkillTableHeaderComponent.vue";
 import SkillTableHeaderComponent from "@/components/skills/SkillTableHeaderComponent.vue";
 import SkillTableBodyComponent from "@/components/skills/SkillTableBodyComponent.vue";
 import axios from "@/plugins/axios";
@@ -32,7 +32,7 @@ export default defineComponent({
       async getDataAsync()
       {
           this.isLoaded = false;
-          var response = await axios.get<CategoryViewModel[]>("/api/common/category");
+          var response = await axios.get<CategoryViewModel[]>("/api/common/categories?page=1");
           this.isLoaded = false;
           this.categoriesList = response.data;
       }

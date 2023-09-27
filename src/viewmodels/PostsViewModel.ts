@@ -16,5 +16,6 @@ export  class PostViewModelAA{
     // skillTitle: string[]=[];
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
+    images: string[] = [];
     id: Number = 0;
 }

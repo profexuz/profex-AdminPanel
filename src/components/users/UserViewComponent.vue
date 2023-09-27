@@ -36,6 +36,9 @@ export default defineComponent({
             updatedAtS: "" as String
         }
     },
+    watch: {
+        id: 'load',
+    },
     methods: {
         load(){
             this.baseURL = axios.defaults.baseURL!;
@@ -46,6 +49,14 @@ export default defineComponent({
             this.updatedAtS = formatDate(this.updatedAt!);
 
         },
+
+        pushToPosts() {
+    this.$router.push({
+    name: "post", // Replace with the actual name of your destination route
+    params: {
+      id: this.id,
+    }})
+},
     },
     mounted() {
         this.load();
@@ -58,7 +69,9 @@ export default defineComponent({
             <img v-bind:src= "imageFullPath" class="image-square rounded-lg"   alt="" />
         </div>
         <div class="px-2 pt-1 pb-2">
-            <h5 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} <br> {{lastName}}</h5>
+            <div class="truncate-text">
+          <h6 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ firstName }} {{ lastName }}</h6>
+        </div>
 <!--            <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{firstName}} {{lastName}}</h5>-->
 
             <p class=" font-normal text-gray-700 dark:text-gray-400">{{phoneNumber}}
@@ -76,17 +89,13 @@ export default defineComponent({
                 <IconCalendarEdit></IconCalendarEdit>
                 <p class="mx-1 font-normal bold text-gray-700 dark:text-gray-400">{{ updatedAtS }}</p>
             </div>
-            <a href="#" class="inline-flex w-full items-center justify-center mt-1 text-lg font-medium  text-gray-500 rounded   hover:text-gray-900 bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
-                <span class="w-full">Posts</span>
+            <button  @click="pushToPosts" class="inline-flex w-full items-center justify-center mt-1 text-lg font-medium  text-gray-500 rounded   hover:text-gray-900 bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white">
+                <span class="w-full">{{ $t('Posts') }}</span>
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                 </svg>
-            </a>
-<!--            <button type="button"-->
-<!--                    class="mt-2 w-full justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">-->
-<!--                Edit-->
-
-<!--            </button>-->
+            </button>
+            <div class="flex">
             <UserEditModal 
                 :editId=id
                 :nameProp=firstName
@@ -95,10 +104,11 @@ export default defineComponent({
             </UserEditModal>
             <button type="button"
                     class="w-full">
-                <UserDeleteComponent :id-user=id>
-
-                </UserDeleteComponent>
+                <UserDeleteComponent :id-user=id></UserDeleteComponent>
             </button>
+            
+            </div>
+            
 
         </div>
 
@@ -121,6 +131,10 @@ export default defineComponent({
     position: relative;
 }
 
-
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
 </style>

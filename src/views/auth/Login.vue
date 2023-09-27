@@ -2,44 +2,49 @@
 import { defineComponent} from 'vue';
 import axios from '@/plugins/axios';
 import { LoginDtos } from '@/dtos/AuthDto';
+import Cookies from 'js-cookie';
+import LoadingCompanent from '@/components/LoadingCompanent.vue';
 
  export default defineComponent({
+    components:{
+        LoadingCompanent
+    },
     data(){
         return{
             phoneNumber: "" as String,
             password: "" as String,
             responseToken: "" as String,
-            existError: false as boolean
+            existError: false as boolean,
+            loading: true
         }
     },
     methods:{
         async errorClose(){
-          this.existError = false;
+            this.existError = false;
         },
         async loginAsync(){
+            this.loading = false
             var loginDto = new LoginDtos();
             loginDto.phoneNumber = this.phoneNumber;
             loginDto.password = this.password;
             var jsonContent:string = JSON.stringify(loginDto);
-            console.log(jsonContent)
-             var response = await axios.post("api/administrator/login",jsonContent,
+            try {
+                var response = await axios.post("api/administrator/login",jsonContent,
                        {
                 headers:{
                     'Content-Type': 'application/json'
                 }
             })
-
             console.log(response.status);
-            if(response.status == 200 )
-            {
-                var token:string = response.data.token;
-                document.cookie = "access_token=" + token + "; expires: SESSION; path=/";
-                this.$router.push("/dashboard");
+            var token:string = response.data.token;
+            Cookies.set("access_token", token);
+            this.$router.push("/dashboard");
             }
-            else
-            {
+            catch (error) {
                 this.existError = true;
+                this.loading = true
             }
+            console.log(jsonContent)
         }
     }
     
@@ -88,20 +93,21 @@ import { LoginDtos } from '@/dtos/AuthDto';
                                     <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
                                 </div>
                             </div>
-                            <a href="#"
-                                class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot
-                                password?</a>
                         </div>
-                        <button @click="loginAsync"
-                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            >
+                        <button v-if="loading" @click="loginAsync"
+                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             Sign in
+                        </button>
+
+                        <button v-else="loading"
+                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            <LoadingCompanent></LoadingCompanent>
                         </button>
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                             This site for only Profex administrators!
                         </p>
                     </div>
-                <div id="popup-modal"  v-show="this.existError" class=" flex flex-col items-center justify-center fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full  ">
+                <div id="popup-modal"  v-show="existError" class=" flex flex-col items-center justify-center fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full  ">
                     <div class="relative w-full max-w-md max-h-full">
                         <div class="relative bg-gray-300 rounded-lg shadow dark:bg-gray-700">
                             <button @click="errorClose" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >

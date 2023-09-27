@@ -30,18 +30,24 @@ export default defineComponent( {
         id : Number,
         cName: String
     },
+    watch:{
+        id:'getDataChildAsync'
+    },
     methods:{
         formatDate,
         async getDataCategory(){
-            var catresponse = await axios.get<CategoryViewModel[]>("/api/common/category");
+            var catresponse = await axios.get<CategoryViewModel[]>("/api/common/categories");
             this.categoryList = catresponse.data;
             console.log(this.categoryList)
         },
         async getDataChildAsync(myId:number)
         {
-            console.log(myId);
-            this.Aurl = `/api/common/category/allSkillsBy/categoryId?categoryId=${myId}`
-            var responce = await axios.get<SkillViewModel[]>(this.Aurl);
+            this.$router.push({
+              name: "skillsDetail", // Replace with the actual name of your destination route
+              params: {
+                id: myId,
+              }})
+            var responce = await axios.get<SkillViewModel[]>(`/api/common/skills/categories/`+ myId + '?page=1');
             this.SkillList = responce.data;
         }
 
@@ -54,13 +60,13 @@ export default defineComponent( {
             createdAtString: "" as String,
             updatedAtString: "" as String,
             Aurl:"" as String,
-            selectedId : 0,
+            selectedId : this.$route.params.id,
             categoryList: [] as CategoryViewModel[]
         }
     },
     async mounted(){
         await  this.getDataCategory();
-        await this.getDataChildAsync(this.$route.params.id);
+        await this.getDataChildAsync(this.selectedId);
     },
 
 
@@ -72,7 +78,7 @@ export default defineComponent( {
         <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{$t('selectCategory')}}
         </label>
-        <select @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select  @click="getDataChildAsync(selectedId)" v-model="selectedId" class="bg-gray-50 text-base border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
             <option class="text-base" v-for="item in categoryList" :value="item.id">{{item.name}}</option>
 
@@ -103,7 +109,7 @@ export default defineComponent( {
                       :descriptionProp = element.description
                       :idProp = element.id
                       :nameProp = element.title
-                      :CategoryId = element.categoryId
+                      :-category-id = element.categoryId
                     ></SkillEditModal>
 
                     <button class=" text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300
@@ -123,6 +129,3 @@ export default defineComponent( {
 
 
 
-<style scoped>
-
-</style>

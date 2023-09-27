@@ -2,12 +2,14 @@
 import {defineComponent} from "vue";
 import IconCreate from "@/components/icons/interface/IconCreate.vue";
 import axios from "@/plugins/axios";
+import LoadingCompanent from "../LoadingCompanent.vue";
 
 export default defineComponent({
     components:
         {
-            IconCreate
-        },
+    IconCreate,
+    LoadingCompanent
+},
     data(){
         return{
             vName:"",
@@ -17,78 +19,140 @@ export default defineComponent({
             vConfirmCode:"",
             ShowRegister:false,
             ShowVerify:false,
-            verifyPhone:""
+            verifyPhone:"",
+            createError: false,
+            exitError: false,
+            phoneError: false,
+            loading: true,
+            codeError: false
         }
     },
     methods:{
+        closeError(){
+            this.createError = false;
+            this.codeError = false;
+            this.phoneError = false;
+            this.exitError = false
+        },
         OpenRegister(){
             this.ShowRegister = true;
+            this.exitError = false,
+            this.phoneError = false;
+            this.createError =  false
         },
         CloseRegister(){
             this.ShowRegister = false;
+            this.exitError = false,
+            this.phoneError = false;
+            this.createError =  false
+            this.loading = true
         },
         OpenVerify(){
+            this.loading = true
             this.ShowVerify = true;
+            this.exitError = false,
+            this.phoneError = false;
+            this.createError =  false
         },
         CloseVerify(){
             this.ShowVerify = false;
+            this.exitError = false,
+            this.createError =  false,
+            this.phoneError = false;
             this.CloseRegister();
         },
         async submitRegister(){
-
-            const registerForm = new FormData();
-            registerForm.append("FirstName",this.vName);
-            registerForm.append("LastName",this.vLastName);
-            registerForm.append("PhoneNumber",this.vPhone);
-            registerForm.append("Password",this.vPassword);
-            const registerResponse = await axios.post("/api/master/register", registerForm)
-            if(registerResponse.status==200){
-                await this.submitSendCode();
-                this.CloseRegister();
-                this.OpenVerify();
+            try{
+                if(this.validatePhoneNumber(this.vPhone)){
+                    this.loading=false
+                    const registerForm = new FormData();
+                    registerForm.append("FirstName",this.vName);
+                    registerForm.append("LastName",this.vLastName);
+                    registerForm.append("PhoneNumber",this.vPhone);
+                    registerForm.append("Password",this.vPassword);
+                    const registerResponse = await axios.post("/api/master/register", registerForm)
+                    if(registerResponse.status==200){
+                        await this.submitSendCode();
+                        this.CloseRegister();
+                        this.OpenVerify();
+                    }
+                    else {
+                        this.loading = true
+                        this.exitError = true
+                    }
+                }
+                else{
+                    this.loading = true
+                    this.phoneError = true
+                }
+                
             }
-            else {
-                alert("Something wrong in Register form");
+            catch{
+                this.loading = true
+                this.exitError = true
             }
         },
         async submitSendCode(){
-            this.verifyPhone = this.vPhone.substring(1);
-            const formData = new FormData();
-            formData.append("phone",this.vPhone);
-            const codeSendResponse = await axios.post(`/api/master/register/send-code?phone=%2B${this.verifyPhone}`);
-            if(codeSendResponse.status == 200)
-            {
-                alert('code sent')
-                this.CloseRegister();
-                this.OpenVerify();
+            try{
+                this.loading = false
+                this.verifyPhone = this.vPhone.substring(1);
+                const formData = new FormData();
+                formData.append("phone",this.vPhone);
+                const codeSendResponse = await axios.post(`/api/master/register/send-code?phone=%2B${this.verifyPhone}`);
+                if(codeSendResponse.status == 200)
+                {
+                    this.CloseRegister();
+                    this.OpenVerify();
+                }
+                else{
+                    this.codeError = true
+                    this.loading = true
+                }
             }
-            else{
-                alert("Something wrong in Send Code form");
-                console.log("status ",codeSendResponse.status);
-                console.log("vPhone ", this.vPhone );
-                console.log(codeSendResponse)
+            catch{
+                this.loading = true
+                this.codeError = true
             }
+            
 
         },
         async submitVerify(){
-            const formData = new FormData();
-            formData.append("PhoneNumber",this.vPhone);
-            formData.append("Code",this.vConfirmCode);
-            const verifyForm ={
-                phoneNumber: this.vPhone,
-                code: this.vConfirmCode
+            try{
+                this.loading = false
+                const formData = new FormData();
+                formData.append("PhoneNumber",this.vPhone);
+                formData.append("Code",this.vConfirmCode);
+                const verifyForm ={
+                    phoneNumber: this.vPhone,
+                    code: this.vConfirmCode
+                }
+                const verifyResponse = await axios.post("/api/master/register/verify",formData);
+                if(verifyResponse.status == 200){
+                    this.CloseRegister();
+                    location.reload();
+                }else
+                {
+                    this.createError = true
+                    this.loading = true
+                }
+            }catch{
+                this.loading =true
+                this.createError = true
             }
-            const verifyResponse = await axios.post("/api/master/register/verify",formData);
-            console.log(verifyForm);
-            if(verifyResponse.status == 200){
+                
+        },
+        validatePhoneNumber(phoneNumber: string) {
+            if(phoneNumber.length === 9){
+                const phonePattern = /^[+]?[0-9]+(?:[\s\-]?[0-9]+)*$/;
+                return phonePattern.test(phoneNumber);  
+            }
+            else{
+                return false
+            }
+            
+        },
 
-                this.CloseRegister();
-                location.reload();
-            }else
-            {
-                alert("Something wrong in Confirm Code form");
-            }
-        }
+
 
 
     }
@@ -99,7 +163,7 @@ export default defineComponent({
 
   <!--    button   start   -->
     <button @click="OpenRegister"
-            type="button" class="text-white w-32 h-14 bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+            type="button" class="text-white mx-2 h-10 bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
         <div class="flex flex items-center">
             <IconCreate></IconCreate>
             <p class="mx-2">{{ $t("create") }}</p>
@@ -112,6 +176,55 @@ export default defineComponent({
     <div v-if="ShowRegister"
          class="fixed top-0 left-0 right-0 z-50 w-full h-screen flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative w-full max-w-md max-h-full">
+
+            <div v-if="exitError" id="alert-2" 
+                    class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div class="ml-3 text-sm font-medium">
+                            {{ $t('exitNumber') }}
+                    </div>
+                    <button type="button" @click="closeError"
+                        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                        data-dismiss-target="#alert-2" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+            </div>
+
+            <div v-if="phoneError" id="alert-2" 
+                    class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div class="ml-3 text-sm font-medium">
+                            {{ $t('hasnumber') }}
+                    </div>
+                    <button type="button" @click="closeError"
+                        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                        data-dismiss-target="#alert-2" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+            </div>
+
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button"
@@ -172,11 +285,14 @@ export default defineComponent({
                                    required>
                         </div>
 
-                        <button  type="submit"
+                        <button v-if="loading" type="submit"
                                  class="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
                             {{$t("next")}}
                         </button>
-
+                        <button v-else type="submit"
+                                 class="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
+                            <LoadingCompanent></LoadingCompanent>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -188,6 +304,29 @@ export default defineComponent({
     <div v-if="ShowVerify"
          class="fixed top-0 left-0 right-0 z-50 w-full h-screen flex items-center justify-center bg-black bg-opacity-50">
         <div class="relative w-full max-w-md max-h-full">
+            <div v-if="createError" id="alert-2" 
+                    class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div class="ml-3 text-sm font-medium">
+                            {{ $t('errorCreate') }}
+                    </div>
+                    <button type="button" @click="closeError"
+                        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                        data-dismiss-target="#alert-2" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+            </div>
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button type="button"
@@ -212,9 +351,14 @@ export default defineComponent({
                                    autocomplete="off"
                                    required>
                         </div>
-                        <button  type="submit"
+                        <button v-if="loading" type="submit"
                                  class="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
                             {{$t("create")}}
+                        </button>
+
+                        <button v-else type="submit"
+                                 class="w-full text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
+                            <LoadingCompanent></LoadingCompanent>
                         </button>
                     </form>
                 </div>

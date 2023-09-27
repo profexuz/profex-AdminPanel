@@ -18,3 +18,32 @@
     </div>
 
 </template>
+
+<!-- <template>
+    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div class="image-container px-2 pt-2">
+        <div class="w-24 h-24 bg-gray-200 rounded-lg animate-pulse"></div>
+      </div>
+      <div class="px-2 pt-1 pb-2">
+        <div class="truncate-text">
+          <h6 class="w-2/3 h-8 bg-gray-200 rounded-full animate-pulse"></h6>
+        </div>
+        <p class="font-normal text-gray-700 dark:text-gray-400">
+          <span class="w-24 h-6 bg-gray-200 rounded-full animate-pulse"></span>
+        </p>
+        <div class="flex mt-1 flex-wrap items-center">
+          <div class="w-4 h-4 bg-gray-200 rounded-full animate-pulse"></div>
+          <p class="w-16 h-6 bg-gray-200 rounded-full animate-pulse ml-1"></p>
+        </div>
+        <div class="flex mt-1 flex-wrap items-center">
+          <div class="w-4 h-4 bg-gray-200 rounded-full animate-pulse"></div>
+          <p class="w-16 h-6 bg-gray-200 rounded-full animate-pulse ml-1"></p>
+        </div>
+        <div class="flex mt-3">
+          <div class="w-1/2 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+          <button type="button" class="w-1/2 h-10 bg-gray-200 rounded-full animate-pulse ml-3"></button>
+        </div>
+      </div>
+    </div>
+  </template> -->
+  
