@@ -1,4 +1,4 @@
-[![Video](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/1%20(1).png)](https://github.com/profexuz/media/blob/main/videos/Admin-Panel/2023-10-05%2015-13-25.mp4)
+[![Video](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/1%20(1).png)](https://www.youtube.com/watch?v=OrvrHdISmP4&list=RDMMOrvrHdISmP4&start_radio=1&ab_channel=%C3%87ak%C4%B1rT%C3%BCrk)
 
 
 ## Project Setup
