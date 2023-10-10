@@ -1,4 +1,5 @@
-[![Video]([https://www.example.com/video-thumbnail.png](https://t.me/profex/2))]([https://www.youtube.com/watch?v=your-video-id](https://t.me/profex/22))
+[![Video](https://t.me/profex/2)](https://t.me/profex/22)
+
 
 ## Project Setup
 
