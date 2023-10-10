@@ -1,4 +1,4 @@
-[![Video](https://t.me/profex/2)](https://t.me/profex/22)
+[![Video](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/1%20(1).png)](https://github.com/profexuz/media/blob/main/videos/Admin-Panel/2023-10-10%2016-14-55.mkv)
 
 
 ## Project Setup
