@@ -16,7 +16,12 @@
 ![Image URL](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/8.png)
 # Masters Search
 ![Image URL](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/9.png)
-
+# Users
+![Image URL](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/10.png)
+# Skills
+![Image URL](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/11.png)
+# Posts
+![Image URL](https://github.com/profexuz/media/blob/main/images/Admin%20Panel/12.png)
 ## Project Setup
 
 ```sh
